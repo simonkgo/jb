@@ -1,0 +1,15 @@
+{
+  "name": "08-use-published",
+  "version": "1.0.0",
+  "description": "This is a cool package for greeting me;",
+  "main": "index.js",
+  "dependencies": {
+    "simon-k-greetme": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
