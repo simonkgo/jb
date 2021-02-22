@@ -1,0 +1,1 @@
+console.log("console aonther module", global.nameBlabla);
