@@ -3,7 +3,7 @@
 // class MyClass extends EventEmitter {
 //     call(){
 //         this.on('samuel',this.message);
-//         this.on('dvori',this.newmessage)
+//         this.on('samuel',this.newmessage)
 //         this.emit('samuel')
 //     }
 //     message(){
