@@ -1,0 +1,8 @@
+{
+    "database": {
+        "name": "prod.db",
+        "user":"admin",
+        "password": "csdjnc32ud87hdkajnksncls"
+    },
+    "url": "https://amazon.mq-us-east.amazonaws.com"
+}
