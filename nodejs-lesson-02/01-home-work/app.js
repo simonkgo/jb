@@ -9,3 +9,4 @@ const primes2 = filesHandler.readArray("./primes.txt");
 console.log(primes2);
 console.log("test")
 console.log("test2")
+console.log("test3")
