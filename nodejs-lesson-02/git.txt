@@ -1,0 +1,3 @@
+git remote set-url origin https://5817fb5438d0b24978cb503bb5cb8566d57f766b@github.com/simonkgo/jb.git 
+git checkout -b mikelbts
+git push https://5817fb5438d0b24978cb503bb5cb8566d57f766b@github.com/simonkgo/jb.git mikelbts
