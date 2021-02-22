@@ -1,20 +1,10 @@
-// const EventEmitter = require('events');
+const fs = require('fs')
 
-// class MyClass extends EventEmitter {
-//     call(){
-//         this.on('samuel',this.message);
-//         this.on('samuel',this.newmessage)
-//         this.emit('samuel')
-//     }
-//     message(){
-//     console.log('work work work ');
+fs.writeFileSync('./my-file-text','Hello New file 1');
 
-//     }
-//     newmessage(){
-//         setTimeout(() => {
-//             console.log('running after 2 secend');
-//         }, 2000);
-//     }
-//  };
-// const hello = new MyClass();
-// hello.call()
+fs.appendFileSync('./my-file-text','\nHello Older file 2');
+
+const data = fs.readFileSync('./my-file-text',"utf-8");
+console.log(data);
+
+
