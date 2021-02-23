@@ -12,4 +12,3 @@ if (process.env.NODE_ENV === "production") {
 };
 
 console.log(`Database Name: ${global.config.database.name}`);
-console.log(`Database Name: ${global.config.database.name}`);
