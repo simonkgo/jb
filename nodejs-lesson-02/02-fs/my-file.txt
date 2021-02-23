@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 hello world
  bye bye
  bye bye mankdjdkdjdkdjd
  kdjd
+=======
+Hello All!
+I'm writing!
+Bye Bye...!
+>>>>>>> master
