@@ -1,11 +1,11 @@
 const usersModule = require('./user');
 
-const init = async () => {
+const init =  async () => {
     const user =  {id:2,firstName:'Moishe',lastName:'Ufnik'};
     try {
        await usersModule.adduser(user);
        const resulte = await usersModule.getuser();
-       console.log(JSON.parse(resulte));
+       console.log(resulte);
     } catch (error) {
         console.log('EROR');
     }
