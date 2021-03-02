@@ -6,9 +6,10 @@ const books = [
 
 const exspress = require('express');
 const app = exspress();
-const omei = 'hfjdsbvsj'
+const omri = 'hala bala'
 app.get('/api/books/', (request, response) => {
-    response.json(books)
+    response.json(books);
+    response.send(omri);
 
 });
 
@@ -16,7 +17,6 @@ app.get('/api/books/:bookId', (request, response) => {
     const id = +request.params.bookId;
     const resulte = books.find(book => book.id === id);
     response.json(resulte);
-    response.json(books)
 
 });
 app.listen(4000, () => console.log('Listen On Port 4000'))

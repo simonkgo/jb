@@ -6,7 +6,7 @@ const port = 3000;
 const server = http.createServer((request,response) => {
     console.log(request.url);
     console.log(request.method);
-    // console.log(request.headers);
+    console.log(request.headers);
     response.statusCode = 200;
     response.end('Hello Samuel Lasmi')
 
