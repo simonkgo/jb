@@ -1,6 +1,5 @@
 /*
-   rest with express;
-
+    rest with express;
     express 
     סיפריה חינמית קלה ומהירה שעוזרת לבנות שרת וואב בטכנית רסט
     https://www.npmjs.com/package/express
@@ -19,13 +18,11 @@
     GET /api/books/:bookId
     POST /api/books
  */
-
 const books = [
     { id: 1, name: "C++", author: "Moishe" },
     { id: 2, name: "JS", author: "Kipi" },
     { id: 3, name: "PHP", author: "Ugi" },
 ];
-
 
 //Get an object representing the entire server;
 //---;
