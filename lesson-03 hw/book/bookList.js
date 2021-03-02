@@ -3,4 +3,4 @@ const books = [
     { id: 2, name: "JS", author: "Kipi" },
     { id: 3, name: "PHP", author: "Ugi" },
 ];
-module.exports = books
+module.exports = books;
