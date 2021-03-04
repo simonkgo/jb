@@ -42,7 +42,7 @@ app.post("/api/books", (request, response)=>{
     response.json(books);
 });
 
-app.put("/api/books/:bookId", (request, response)=>{
+app.patch("/api/books/:bookId", (request, response)=>{
     const id = +request.params.bookId;
     const updatedInfo = request.body;
     const book = books.find(book => book.id === id);
@@ -53,10 +53,22 @@ app.put("/api/books/:bookId", (request, response)=>{
         if(book.id === id){
             if(updatedInfo.name) book.name = updatedInfo.name;
             if(updatedInfo.author) book.author = updatedInfo.author;
-        }
+        };
     });
     response.json(books);
-})
+});
+
+app.put("/api/books/:bookId", (request, response)=>{
+    const id = +request.params.bookId;
+    const book = request.body;
+    const index = books.findIndex(book => book.id === id);
+    if (index === undefined) {
+        response.json("This book does not exist");
+    }
+    book.id = id;
+    books[index] = book;
+    response.json(books[index]);
+});
 
 app.delete("/api/books/:bookId", (request, response) => {
     const id = +request.params.bookId;
