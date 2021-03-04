@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 Hello to you :) data
+=======
+Hello All!
+I'm writing!
+Bye Bye...!
+>>>>>>> 6131052216383c5ccbc9a8e499551d4183bbb2cb
