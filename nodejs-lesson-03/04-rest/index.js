@@ -22,17 +22,19 @@ app.get("/api/books/:id", (request, response) => {
 });
 app.post("/api/books",(request, response) => {
     const id = books.length+1;
-    data = {...request.body, id:id}
+    const data = request.body;
+    data.id = id;
     books.push(data);
     response.json(books);
 });
 app.put("/api/books/:id",(request, response) => {
     const id = +request.params.id;
-    data = {...request.body, id:id}
+    const data = request.body;
     books.forEach(book => {
         if(book.id === id){
             book.name = data.name;
             book.author = data.author;
+            book.id = id;
         }
     });
     response.json(data);
