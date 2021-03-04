@@ -1,0 +1,9 @@
+{ 
+"compilerOptions": { 
+"target": "ES5", 
+"outDir": "js", 
+"emitDecoratorMetadata": true, 
+"experimentalDecorators": true, 
+"strictNullChecks":true 
+} 
+} 
