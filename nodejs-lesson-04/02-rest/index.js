@@ -80,5 +80,9 @@ app.put("/app/books/:bookId", (request, response) => {
     response.json(book);
 });
 
+app.patch("/api/books/:booksId", (response,request) => {
+    response.json("hello from moishe")
+})
+
 
 app.listen("3000", () => console.log("Server listening on port 3000"));
