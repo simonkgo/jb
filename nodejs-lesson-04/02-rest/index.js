@@ -51,8 +51,8 @@ app.put("/api/books/:bookId", (request, response)=>{
     }
     books.forEach(book => {
         if(book.id === id){
-            book.name = updatedInfo.name;
-            book.author = updatedInfo.author;
+            if(updatedInfo.name) book.name = updatedInfo.name;
+            if(updatedInfo.author) book.author = updatedInfo.author;
         }
     });
     response.json(books);
