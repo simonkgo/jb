@@ -27,7 +27,7 @@ app.get("/api/books/:bookId", (request, response) => {
 
 app.post("/api/books", (request, response)=>{
     const book = request.body;
-    let newId = books.length + 1;
+    let newId = 1;
     const verifyId = ()=> {
         const isIdTaken = books.find(book=>book.id===newId);
         if(!isIdTaken) {
