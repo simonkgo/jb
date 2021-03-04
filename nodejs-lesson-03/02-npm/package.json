@@ -1,0 +1,30 @@
+{
+<<<<<<< HEAD
+  "name": "02-npm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+=======
+  "name": "06-npm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "less": "^3.13.1",
+    "react-color": "^2.17.0"
+  },
+  "devDependencies": {},
+>>>>>>> d1097cd36ed93cf3ce7861b930182c83287d745a
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+<<<<<<< HEAD
+  "license": "ISC",
+  "dependencies": {
+    "react-color": "^2.19.3"
+  }
+=======
+  "license": "ISC"
+>>>>>>> d1097cd36ed93cf3ce7861b930182c83287d745a
+}
