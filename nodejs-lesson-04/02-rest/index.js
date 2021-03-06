@@ -72,6 +72,11 @@ app.put("/api/books/:bookId", (request, response) => {
     //נמצא את האינדקס במערך שבו נמצא
     //---
     const index = books.findIndex(b => b.id === id);
+    if (index === undefined) {
+        response.json("This book does not exist");
+    }
+
+    book.id = id;
 
     //נשים את כל אובייקט הספר המעודכן במקום שבו היה המקור
     //---
@@ -79,8 +84,32 @@ app.put("/api/books/:bookId", (request, response) => {
     
     //נחזיר את הספר המעודכן בפורמט גייסון בחזרה לקליינט
     //---
-    response.json(book);
+    response.json(books[index]);
 });
+
+app.patch("/api/books/:bookId", (request, response)=>{
+    const id = +request.params.bookId;
+    const updatedInfo = request.body;
+    const book = books.find(book => book.id === id);
+    if (book === undefined) {
+        response.json("This book does not exist");
+    }
+    books.forEach(book => {
+        if(book.id === id){
+            if(updatedInfo.name) book.name = updatedInfo.name;
+            if(updatedInfo.author) book.author = updatedInfo.author;
+        };
+    });
+    response.json(books);
+});
+
+app.delete("/api/books/:bookId", (request, response) => {
+    const id = +request.params.bookId;
+    const book = books.find(book => book.id === id);
+    const indexToRemove = books.indexOf(book);
+    books.splice(indexToRemove,1);
+    response.json(books);
+})
 
 
 app.listen("3000", () => console.log("Server listening on port 3000"));
