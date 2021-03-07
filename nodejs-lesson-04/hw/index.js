@@ -1,9 +1,11 @@
 const { request, response } = require("express");
-const bp = require('body-parser')
+// const bp = require('body-parser')
+// app.use(bp.json())
+// app.use(bp.urlencoded({ extended: true }))
 const express = require('express')
 const app = express()
-app.use(bp.json())
-app.use(bp.urlencoded({ extended: true }))
+app.use(express.json())
+
 const users = [
     { id: 1, firstname: 'Frogy', lastname: ' the frog', department: 'swamp area' },
     { id: 2, firstname: 'Fishy', lastname: 'the fish', department: 'aquarium area' },
