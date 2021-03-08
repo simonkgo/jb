@@ -19,7 +19,6 @@ app.get("/api/books/:bookId", (request, response) => {
     //נשמצא את הספר המתאים במערך הספרים 
     //---
     const book = books.find(b => b.id == id);
-
     //נחזיר תשובה כאובייקט גייסון לקליינט
     //---
     response.json(book);
@@ -72,13 +71,28 @@ app.put("/api/books/:bookId", (request, response) => {
 //PATCH /api/books/7 - partial update of book with id=7;
 //---;
 app.patch("/api/books/:bookId", (request, response) => {
-   //...
+    const id = +request.params.bookId;
+
+    const bookFromBody = request.body;
+
+    const bookFromArray = books.find(book=> book.id ===id);
+
+    for(const key in bookFromBody){
+        if(key in bookFromArray){
+            bookFromArray[key] = bookFromBody[key];
+        }
+    }
+    response.json(books);
+
 });
 
 //DELETE /api/books/7 - delete book with id=7;
 //---;
 app.delete("/api/books/:bookId", (request, response) => {
-    //...
+    const deleteMyId = +request.params.bookId;
+    const indexTheDelete = books.findIndex(book=> book.id ===deleteMyId);
+    books.splice(indexTheDelete, 1);
+    response.sendStatus(204);
 });
 
 //Run the server;
