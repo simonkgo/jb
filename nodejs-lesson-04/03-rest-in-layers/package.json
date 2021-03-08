@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "name": "rest",
-=======
-  "name": "02-rest",
->>>>>>> fddaa9482a78d2e98eb628c107b32d13d3f09c5a
+  "name": "03-rest-in-layers",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/express": "^4.17.11",
     "express": "^4.17.1"
   }
 }

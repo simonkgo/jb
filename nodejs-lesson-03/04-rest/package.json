@@ -1,5 +1,12 @@
 {
+<<<<<<< HEAD
 
+=======
+  "name": "04-rest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+>>>>>>> fddaa9482a78d2e98eb628c107b32d13d3f09c5a
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

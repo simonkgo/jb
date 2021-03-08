@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 const http = require("http");
 const hostname = "127.0.0.1";
 const port = 3000;
@@ -14,6 +15,8 @@ const server = http.createServer((request, response) => {
 server.listen(port, hostname, () => {
   console.log(`Server is listening on port ${port} , hostname is ${hostname}`);
 =======
+=======
+>>>>>>> fddaa9482a78d2e98eb628c107b32d13d3f09c5a
 /*
       ---
       למדנו ששרת זו תוכנה שכתובה בשפה כזו או אחרת
@@ -71,5 +74,8 @@ const server = http.createServer((request, response) => {
  */
 server.listen(3000, "127.0.0.1", () => {
     console.log(`Server is listening on port 3000`);
+<<<<<<< HEAD
 >>>>>>> d1097cd36ed93cf3ce7861b930182c83287d745a
+=======
+>>>>>>> fddaa9482a78d2e98eb628c107b32d13d3f09c5a
 });

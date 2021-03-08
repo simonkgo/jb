@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "name": "rest",
-=======
-  "name": "02-rest",
->>>>>>> fddaa9482a78d2e98eb628c107b32d13d3f09c5a
+  "name": "03-rest",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 node_modules/
+=======
+node_modules/
+.DS_Store
+/js
+>>>>>>> fddaa9482a78d2e98eb628c107b32d13d3f09c5a

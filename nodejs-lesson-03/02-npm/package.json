@@ -1,10 +1,13 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
   "name": "02-npm",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
 =======
+=======
+>>>>>>> fddaa9482a78d2e98eb628c107b32d13d3f09c5a
   "name": "06-npm",
   "version": "1.0.0",
   "description": "",
@@ -14,11 +17,15 @@
     "react-color": "^2.17.0"
   },
   "devDependencies": {},
+<<<<<<< HEAD
 >>>>>>> d1097cd36ed93cf3ce7861b930182c83287d745a
+=======
+>>>>>>> fddaa9482a78d2e98eb628c107b32d13d3f09c5a
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
+<<<<<<< HEAD
 <<<<<<< HEAD
   "license": "ISC",
   "dependencies": {
@@ -27,4 +34,7 @@
 =======
   "license": "ISC"
 >>>>>>> d1097cd36ed93cf3ce7861b930182c83287d745a
+=======
+  "license": "ISC"
+>>>>>>> fddaa9482a78d2e98eb628c107b32d13d3f09c5a
 }
