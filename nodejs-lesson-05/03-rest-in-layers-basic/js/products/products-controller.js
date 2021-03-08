@@ -38,21 +38,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsController = void 0;
 var express = require("express");
+var fs = require("fs");
 var ProductsController = /** @class */ (function () {
     function ProductsController() {
-        this._router = express.Router();
-        this.activateRouters();
-    }
-    ProductsController.prototype.activateRouters = function () {
-        this._router.get("/products", this.all);
-    };
-    ProductsController.prototype.all = function (request, response, next) {
-        return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        this.all = function (request, response, next) { return __awaiter(_this, void 0, void 0, function () {
             var products;
             return __generator(this, function (_a) {
-                console.log("hi");
+                console.log("2");
                 try {
-                    products = "hi";
+                    products = JSON.parse(fs.readFileSync("./database/products.json", "utf-8"));
                     console.log(products);
                     response.json(products);
                 }
@@ -61,7 +56,14 @@ var ProductsController = /** @class */ (function () {
                 }
                 return [2 /*return*/];
             });
-        });
+        }); };
+        this._router = express.Router();
+        this.activateRouters();
+    }
+    ProductsController.prototype.activateRouters = function () {
+        console.log("1");
+        this._router.get("/products", this.all);
+        console.log("3");
     };
     Object.defineProperty(ProductsController.prototype, "router", {
         get: function () {
@@ -70,7 +72,6 @@ var ProductsController = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    ;
     return ProductsController;
 }());
 exports.ProductsController = ProductsController;

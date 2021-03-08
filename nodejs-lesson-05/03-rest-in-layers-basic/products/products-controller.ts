@@ -11,21 +11,23 @@ export class ProductsController {
     }
 
     private activateRouters() {
+        console.log("1");
         this._router.get("/products", this.all);
+        console.log("3");
     }
 
-    private async all(request, response, next) {
+    private all = async (request, response, next) => {
+        console.log("2");
         try {
-            // const products = fs.readFileSync("../database/products.json");
-            const products = "hi"
-            console.log(products)
-            response.json(products)
+            const products = JSON.parse(fs.readFileSync("./database/products.json", "utf-8"));
+            console.log(products);
+            response.json(products);
         } catch (err) {
             response.status(500).send(err.message);
         }
-    }
-
-    get router(){
-        return this._router;
     };
+
+    get router() {
+        return this._router;
+    }
 }

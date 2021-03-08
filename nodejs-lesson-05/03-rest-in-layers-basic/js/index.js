@@ -10,12 +10,12 @@ var Server = /** @class */ (function () {
             _this.app = express();
             _this.app.use(express.json());
             _this.app.use("/api/v1", new products_controller_1.ProductsController().router);
-            _this.app.listen(_this.port, function () { console.log("listening on http://localhost:" + _this.port); });
+            _this.app.listen(_this.port, function () { console.log("listening on http://localhost:" + _this.port + "/api/v1/products"); });
         };
-        this.activate();
         this.port = port;
+        this.activate();
     }
     return Server;
 }());
 exports.default = Server;
-new Server(3003);
+new Server(3000);
