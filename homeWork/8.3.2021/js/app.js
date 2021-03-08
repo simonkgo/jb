@@ -47,6 +47,18 @@ var Server = /** @class */ (function () {
             users[currentUser] = correctedUser;
             response.json(users);
         });
+        this.app.patch("/api/v1/users/:id", function (request, response) {
+            var userBody = request.body;
+            var id = request.params.id;
+            var index = users.findIndex(function (user) { return user.id === id; });
+            var userFromArr = users[index];
+            for (var key in userBody) {
+                if (key in userFromArr) {
+                    userFromArr[key] = userBody[key];
+                }
+            }
+            response.json(userFromArr);
+        });
         this.app.delete("/api/v1/users/:id", function (request, response) {
             var id = request.params.id;
             var currentUser = users.findIndex(function (user) { return user.id === id; });

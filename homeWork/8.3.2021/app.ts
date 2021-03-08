@@ -48,6 +48,19 @@ export class Server {
             users[currentUser] = correctedUser
             response.json(users)
         })
+        this.app.patch("/api/v1/users/:id", (request, response) => {
+            const userBody = request.body
+            const id = request.params.id
+            const index = users.findIndex(user => user.id === id)
+            const userFromArr = users[index]
+
+            for (let key in userBody) {
+                if (key in userFromArr) {
+                    userFromArr[key] = userBody[key]
+                }
+            }
+            response.json(userFromArr)
+        })
         this.app.delete("/api/v1/users/:id", (request, response) => {
             const id = request.params.id
             const currentUser = users.findIndex(user => user.id === id)
