@@ -72,13 +72,35 @@ app.put("/api/books/:bookId", (request, response) => {
 //PATCH /api/books/7 - partial update of book with id=7;
 //---;
 app.patch("/api/books/:bookId", (request, response) => {
-   //...
+    // האובייקט עם המפתחות לעדכון
+    //---;
+    const bookToUpdate = request.body;
+
+    // המספר היו אר אל
+    //---;
+    const updateById = +request.params.bookId;
+
+    //למצוא את הספר במערך לפי איי די;
+    //---;
+    const bookFromArray = books.find(book => book.id === updateById);
+
+    for (const key in bookToUpdate) {
+        if (key in bookFromArray) {
+            bookFromArray[key] = bookToUpdate[key];
+        };
+    };
+
+    response.json(bookFromArray);
 });
+
 
 //DELETE /api/books/7 - delete book with id=7;
 //---;
 app.delete("/api/books/:bookId", (request, response) => {
-    //...
+    const deleteId = +request.params.bookId;
+    const index = books.findIndex(b => b.id === deleteId);
+    books.splice(index, 1);
+    response.sendStatus(204);
 });
 
 //Run the server;
@@ -94,3 +116,45 @@ const books = [
     { id: 2, name: "JS", author: "Kipi" },
     { id: 3, name: "PHP", author: "Ugi" },
 ];
+
+
+
+
+
+// const demo = {name:"c++",author:"moishe"};
+//     console.log(demo[name])
+//     for(const key in demo){
+//         //iteration - name; demo[key]
+//         //iteration - author;
+//         //demo[key] - access to the value;
+//     }
+
+
+/*
+    ! iteration 1;
+    const objFromClient = {
+        "name": "JAVA",
+        "author": "Ugi",
+        "blabla": "Ugi",
+    }
+    const bookFromArray = { id: 1, name: "C++", author: "Moishe" };
+
+    if (name in bookFromArray){
+        bookFromArray[name] = objFromClient[name]
+    }
+*/
+
+// for (const key in bookToUpdate) {
+//     if (key in bookFromArray) {
+//         bookFromArray[key] = bookToUpdate[key];
+//     };
+// };
+
+
+// const person1 = { firstName: "Moishe" };
+// const person2 = { firstName: "Kipi" };
+// console.log(person1[firstName]) // "Mosihe"
+// console.log(person2[firstName]) // "Kipi"
+
+// // moishe = kipi;
+// person1[firstName] = person2[firstName];
