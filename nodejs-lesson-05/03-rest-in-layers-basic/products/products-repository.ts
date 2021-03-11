@@ -11,7 +11,7 @@ class ProductsRepository {
         this.writeFile = util.promisify(fs.writeFile);
     };
 
-    //products.json פונקציה שתקרא את תוכן הקובץ;
+    //פונקציה שתקרא את התוכן מתוך הקובץ;
     //---;
     public async getAll(): Promise<Product[]> {
         try {
@@ -21,7 +21,9 @@ class ProductsRepository {
             throw err;
         };
     };
-
+    
+    //פונקציה שתכתוב את התוכן לתוך הקובץ;
+    //---;
     public async saveAll(products: Product[]): Promise<Product[]> {
         try {
             return await this.writeFile("./database/products.json", JSON.stringify(products));

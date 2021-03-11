@@ -60,6 +60,8 @@ export class ProductsController {
         };
     };
 
+    //PUT /api/products/7 - full update on product with id=7:
+    //---; 
     private async put(req: express.Request, res: express.Response) {
         try {
             const idParam: number = +req.params.id;
@@ -73,7 +75,8 @@ export class ProductsController {
         };
     };
 
-
+    //PATCH /api/products/7 - partial update on product with id=7:
+    //---; 
     private async patch(req: express.Request, res: express.Response) {
         try {
             const idParam: number = +req.params.id;
