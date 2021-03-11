@@ -38,23 +38,156 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsController = void 0;
 var express = require("express");
+var products_service_1 = require("./products-service");
 var ProductsController = /** @class */ (function () {
     function ProductsController() {
         this.router = express.Router();
-        this.router.get("/products", this.all);
+        this.activateProductsControllerRoutes();
     }
     ;
-    ProductsController.prototype.all = function (request, response, next) {
+    //פונקציה שמאתחלת את אובייקט הראוטר של אקספרס ומצרפת פונקציה שתטפל בבקשה עבור כל נתיב;
+    //---;
+    ProductsController.prototype.activateProductsControllerRoutes = function () {
+        this.router.get("/products", this.all);
+        this.router.get("/products/:id", this.getOne);
+        this.router.post("/products", this.post);
+        this.router.put("/products/:id", this.put);
+        this.router.patch("/products/:id", this.patch);
+    };
+    ;
+    //GET /api/products - ונקציה שתחזיר את כל המוצרים;
+    //---;
+    ProductsController.prototype.all = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
+            var products, err_1;
             return __generator(this, function (_a) {
-                try {
-                    response.json("ok");
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, products_service_1.default.all()];
+                    case 1:
+                        products = _a.sent();
+                        res.json(products);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_1 = _a.sent();
+                        console.log(err_1);
+                        return [3 /*break*/, 3];
+                    case 3:
+                        ;
+                        return [2 /*return*/];
                 }
-                catch (err) {
-                    console.log(err);
+            });
+        });
+    };
+    ;
+    //GET /api/products/7 - get one product with id=7:
+    //---; 
+    ProductsController.prototype.getOne = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, product, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        id = +req.params.id;
+                        return [4 /*yield*/, products_service_1.default.getOne(id)];
+                    case 1:
+                        product = _a.sent();
+                        if (!product) {
+                            res.status(404).send("id " + id + " not found");
+                        }
+                        ;
+                        res.json(product);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_2 = _a.sent();
+                        res.status(400).send(err_2.message);
+                        return [3 /*break*/, 3];
+                    case 3:
+                        ;
+                        return [2 /*return*/];
                 }
-                ;
-                return [2 /*return*/];
+            });
+        });
+    };
+    ;
+    //POST /api/products - add new product;
+    //---;
+    ProductsController.prototype.post = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var product, err_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, products_service_1.default.post(req.body)];
+                    case 1:
+                        product = _a.sent();
+                        res.status(201).json(product);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_3 = _a.sent();
+                        res.status(400).send(err_3.message);
+                        return [3 /*break*/, 3];
+                    case 3:
+                        ;
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ;
+    ProductsController.prototype.put = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var idParam, product, result, err_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        idParam = +req.params.id;
+                        product = req.body;
+                        product.id = idParam;
+                        return [4 /*yield*/, products_service_1.default.put(product)];
+                    case 1:
+                        result = _a.sent();
+                        res.json(result);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_4 = _a.sent();
+                        res.status(400).send(err_4.message);
+                        return [3 /*break*/, 3];
+                    case 3:
+                        ;
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ;
+    ProductsController.prototype.patch = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var idParam, product, result, err_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        idParam = +req.params.id;
+                        product = req.body;
+                        product.id = idParam;
+                        return [4 /*yield*/, products_service_1.default.patch(product)];
+                    case 1:
+                        result = _a.sent();
+                        res.json(result);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_5 = _a.sent();
+                        res.status(400).send(err_5.message);
+                        return [3 /*break*/, 3];
+                    case 3:
+                        ;
+                        return [2 /*return*/];
+                }
             });
         });
     };
