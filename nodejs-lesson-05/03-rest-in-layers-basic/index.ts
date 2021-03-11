@@ -3,6 +3,7 @@ import { ProductsController } from './products/products-controller'
 
 export default class Server {
     public app: express.Application
+    private ProductsController: ProductsController
     constructor() {
         this.activate()
     }
