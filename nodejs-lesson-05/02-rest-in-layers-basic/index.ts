@@ -2,7 +2,8 @@ import * as express from "express";
 import {ProductsController} from "./product/products-controller"
 
 export default class Server{
-    public app: any;//express.Application;
+    public app: express.Application;
+    private ProductsController:ProductsController;
 
     constructor(){
         this.activate();
@@ -12,7 +13,7 @@ export default class Server{
         this.app = express();
         this.app.use(express.json());
         this.app.use("/api/v1", new ProductsController().router);
-        this.app.listen(3000, () =>{console.log("listening on port 3000")});
+        this.app.listen(3000, () =>{console.log("listening on port 3000 just checking")});
     };
 
 }

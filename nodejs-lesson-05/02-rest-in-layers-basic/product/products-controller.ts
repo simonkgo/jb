@@ -1,8 +1,9 @@
 import * as express from 'express';
 import {Product} from "./product";
+import ProductsService from "./products-service";
 
 export class ProductsController {
-    public router:any;
+    public router: express.Router;
 
     constructor(){
         this.router = express.Router();
@@ -13,11 +14,12 @@ export class ProductsController {
         this.router.get("/products", this.all);
     };
 
-    private async all(request,response,next){
+    private async all(req:express.Request, res:express.Response){
         try{
-            response.json("ok");
+            const products = ProductsService.all();
+            res.json(products);
         }catch(err){
-            response.status(404).send(err.message)
+            res.status(404).send(err.message)
         }
     }
 }
