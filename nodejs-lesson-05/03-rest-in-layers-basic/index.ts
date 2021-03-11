@@ -3,7 +3,8 @@
 import * as express from 'express';
 import { ProductsController } from './products/products-controller';
 export default class Server {
-    public app: express.Application
+    public app: express.Application;
+    private productsController: ProductsController;
     public port: number;
     constructor(port){
         this.port = port

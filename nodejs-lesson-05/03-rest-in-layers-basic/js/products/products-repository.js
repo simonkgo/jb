@@ -36,90 +36,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductsController = void 0;
-var express = require("express");
-var products_service_1 = require("./products-service");
-var ProductsController = /** @class */ (function () {
-    function ProductsController() {
-        var _this = this;
-        this.all = function (request, response, next) { return __awaiter(_this, void 0, void 0, function () {
-            var products, err_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, products_service_1.default.all()];
-                    case 1:
-                        products = _a.sent();
-                        response.json(products);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        err_1 = _a.sent();
-                        response.status(400).send(err_1.message);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        }); };
-        this.one = function (request, response, next) { return __awaiter(_this, void 0, void 0, function () {
-            var id, product, err_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        id = +request.params.id;
-                        return [4 /*yield*/, products_service_1.default.one(id)];
-                    case 1:
-                        product = _a.sent();
-                        if (!product) {
-                            response.status(400).send("ID " + id + " not found");
-                        }
-                        response.json(product);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        err_2 = _a.sent();
-                        response.status(400).send(err_2.message);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        }); };
-        this._router = express.Router();
-        this.activateRouters();
+//data-access-layer
+var fs = require("fs");
+var util = require("util");
+var ProductsRepository = /** @class */ (function () {
+    function ProductsRepository() {
+        this._readfile = util.promisify(fs.readFile);
+        this._writefile = util.promisify(fs.writeFile);
     }
-    ProductsController.prototype.activateRouters = function () {
-        this._router.get("/products", this.all);
-        this._router.get("/products/:id", this.one);
-        this._router.post("/products", this.post);
-    };
-    ProductsController.prototype.post = function (request, response, next) {
+    ProductsRepository.prototype.getAll = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var product, err_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var result, _a, _b, err_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, products_service_1.default.post(request.body)];
+                        _c.trys.push([0, 2, , 3]);
+                        _b = (_a = JSON).parse;
+                        return [4 /*yield*/, this._readfile("./database/products.json", "utf-8")];
                     case 1:
-                        product = _a.sent();
-                        response.status(201).json(product);
-                        return [3 /*break*/, 3];
+                        result = _b.apply(_a, [_c.sent()]);
+                        return [2 /*return*/, result];
                     case 2:
-                        err_3 = _a.sent();
-                        response.status(400).send(err_3.message);
-                        return [3 /*break*/, 3];
+                        err_1 = _c.sent();
+                        throw err_1;
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    Object.defineProperty(ProductsController.prototype, "router", {
-        get: function () {
-            return this._router;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return ProductsController;
+    ProductsRepository.prototype.saveAll = function (products) {
+        return __awaiter(this, void 0, void 0, function () {
+            var err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this._writefile("./database/products.json", JSON.stringify(products))];
+                    case 1: return [2 /*return*/, _a.sent()];
+                    case 2:
+                        err_2 = _a.sent();
+                        throw err_2;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return ProductsRepository;
 }());
-exports.ProductsController = ProductsController;
+exports.default = new ProductsRepository();

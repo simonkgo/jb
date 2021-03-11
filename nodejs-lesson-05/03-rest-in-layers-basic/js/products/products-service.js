@@ -36,90 +36,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductsController = void 0;
-var express = require("express");
-var products_service_1 = require("./products-service");
-var ProductsController = /** @class */ (function () {
-    function ProductsController() {
-        var _this = this;
-        this.all = function (request, response, next) { return __awaiter(_this, void 0, void 0, function () {
-            var products, err_1;
+var products_repository_1 = require("./products-repository");
+var ProductsService = /** @class */ (function () {
+    function ProductsService() {
+    }
+    ProductsService.prototype.all = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var products;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, products_service_1.default.all()];
+                    case 0: return [4 /*yield*/, products_repository_1.default.getAll()];
                     case 1:
                         products = _a.sent();
-                        response.json(products);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        err_1 = _a.sent();
-                        response.status(400).send(err_1.message);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        }); };
-        this.one = function (request, response, next) { return __awaiter(_this, void 0, void 0, function () {
-            var id, product, err_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        id = +request.params.id;
-                        return [4 /*yield*/, products_service_1.default.one(id)];
-                    case 1:
-                        product = _a.sent();
-                        if (!product) {
-                            response.status(400).send("ID " + id + " not found");
-                        }
-                        response.json(product);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        err_2 = _a.sent();
-                        response.status(400).send(err_2.message);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        }); };
-        this._router = express.Router();
-        this.activateRouters();
-    }
-    ProductsController.prototype.activateRouters = function () {
-        this._router.get("/products", this.all);
-        this._router.get("/products/:id", this.one);
-        this._router.post("/products", this.post);
-    };
-    ProductsController.prototype.post = function (request, response, next) {
-        return __awaiter(this, void 0, void 0, function () {
-            var product, err_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, products_service_1.default.post(request.body)];
-                    case 1:
-                        product = _a.sent();
-                        response.status(201).json(product);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        err_3 = _a.sent();
-                        response.status(400).send(err_3.message);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [2 /*return*/, products];
                 }
             });
         });
     };
-    Object.defineProperty(ProductsController.prototype, "router", {
-        get: function () {
-            return this._router;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return ProductsController;
+    ProductsService.prototype.one = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var products, product;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, products_repository_1.default.getAll()];
+                    case 1:
+                        products = _a.sent();
+                        product = products.find(function (product) { return product.id === id; });
+                        return [2 /*return*/, product];
+                }
+            });
+        });
+    };
+    ProductsService.prototype.post = function (newProduct) {
+        return __awaiter(this, void 0, void 0, function () {
+            var newId, products, verifyId;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        newId = 1;
+                        return [4 /*yield*/, products_repository_1.default.getAll()];
+                    case 1:
+                        products = _a.sent();
+                        verifyId = function () {
+                            var product = products.find(function (product) { return product.id === newId; });
+                            if (!product) {
+                                return;
+                            }
+                            newId++;
+                            verifyId();
+                        };
+                        verifyId();
+                        newProduct.id = newId;
+                        products.push(newProduct);
+                        return [4 /*yield*/, products_repository_1.default.saveAll(products)];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/, newProduct];
+                }
+            });
+        });
+    };
+    return ProductsService;
 }());
-exports.ProductsController = ProductsController;
+exports.default = new ProductsService();
