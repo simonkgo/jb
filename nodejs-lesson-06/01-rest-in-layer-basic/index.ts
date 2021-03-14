@@ -16,7 +16,7 @@ export default class Server {
         this.app.use(express.json());
         this.app.use('/api/v1',new ProductControler().router);
         this.app.use('/api/v1',new EmployeeController().router);
-        this.app.listen(3002,() => console.log('server is listen in port 3001'));
+        this.app.listen(3002,() => console.log('server is now listen in port 3001'));
 
     }
 }
