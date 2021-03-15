@@ -1,6 +1,9 @@
 import * as express from 'express'
 import { Product } from "./product"
 import ProductsService from './prducts-service'
+import { validate } from 'class-validator';
+import { NotFound, Forbidden } from '../middleware/error-middleware';
+
 export class ProductsController {
     private _router: any;
 
@@ -10,12 +13,21 @@ export class ProductsController {
     };
 
     private activateProductsControllerRoutes() {
+        this.router.get("/products/auth", this.auth);
         this.router.get("/products", this.all)
         this.router.get("/products/:id", this.getOne)
         this.router.post("/products", this.post)
         this.router.put("/products/:id", this.put)
         this.router.patch("/products/:id", this.patch)
     }
+
+    private async auth(req: express.Request, res: express.Response, next: express.NextFunction) {
+        try {
+            next(new Forbidden(`Foridden`))
+        } catch (err) {
+            res.status(400).send(err.message);
+        };
+    };
 
     private async patch(req: express.Request, res: express.Response) {
         try {
@@ -46,14 +58,22 @@ export class ProductsController {
     }
     private async post(req: express.Request, res: express.Response) {
         try {
-            const product: Product = await ProductsService.post(req.body)
-            res.status(201).json(product)
+            const { name, price, stock } = req.body
+            const product: Product = new Product(name, price, stock)
+            const errors = await validate(product)
+            if (errors.length) {
+                console.log("🚀 ~ file: products-controller.ts ~ line 53 ~ ProductsController ~ post ~ errors", errors)
+                res.status(400).json(errors)
+                return
+            }
+            const result: Product = await ProductsService.post(req.body)
+            res.status(201).json(result)
         } catch (err) {
             throw err
         }
 
     }
-    private async getOne(req: express.Request, res: express.Response) {
+    private async getOne(req: express.Request, res: express.Response, next: express.NextFunction) {
 
 
         try {
@@ -61,7 +81,7 @@ export class ProductsController {
             const id: number = +req.params.id
             const currentProduct = await ProductsService.getOne(id)
             if (!currentProduct) {
-                res.status(404)
+                next(new NotFound(`id ${id} not found`))
             }
             res.json(currentProduct)
 

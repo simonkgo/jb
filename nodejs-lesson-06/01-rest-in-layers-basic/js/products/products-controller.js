@@ -38,7 +38,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsController = void 0;
 var express = require("express");
+var product_1 = require("./product");
 var prducts_service_1 = require("./prducts-service");
+var class_validator_1 = require("class-validator");
+var error_middleware_1 = require("../middleware/error-middleware");
 var ProductsController = /** @class */ (function () {
     function ProductsController() {
         this._router = express.Router();
@@ -46,12 +49,28 @@ var ProductsController = /** @class */ (function () {
     }
     ;
     ProductsController.prototype.activateProductsControllerRoutes = function () {
+        this.router.get("/products/auth", this.auth);
         this.router.get("/products", this.all);
         this.router.get("/products/:id", this.getOne);
         this.router.post("/products", this.post);
         this.router.put("/products/:id", this.put);
         this.router.patch("/products/:id", this.patch);
     };
+    ProductsController.prototype.auth = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                try {
+                    next(new error_middleware_1.Forbidden("Foridden"));
+                }
+                catch (err) {
+                    res.status(400).send(err.message);
+                }
+                ;
+                return [2 /*return*/];
+            });
+        });
+    };
+    ;
     ProductsController.prototype.patch = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var id, product, result, err_1;
@@ -100,25 +119,35 @@ var ProductsController = /** @class */ (function () {
     };
     ProductsController.prototype.post = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var product, err_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, name_1, price, stock, product, errors, result, err_3;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, prducts_service_1.default.post(req.body)];
+                        _b.trys.push([0, 3, , 4]);
+                        _a = req.body, name_1 = _a.name, price = _a.price, stock = _a.stock;
+                        product = new product_1.Product(name_1, price, stock);
+                        return [4 /*yield*/, class_validator_1.validate(product)];
                     case 1:
-                        product = _a.sent();
-                        res.status(201).json(product);
-                        return [3 /*break*/, 3];
+                        errors = _b.sent();
+                        if (errors.length) {
+                            console.log("🚀 ~ file: products-controller.ts ~ line 53 ~ ProductsController ~ post ~ errors", errors);
+                            res.status(400).json(errors);
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, prducts_service_1.default.post(req.body)];
                     case 2:
-                        err_3 = _a.sent();
+                        result = _b.sent();
+                        res.status(201).json(result);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_3 = _b.sent();
                         throw err_3;
-                    case 3: return [2 /*return*/];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    ProductsController.prototype.getOne = function (req, res) {
+    ProductsController.prototype.getOne = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var id, currentProduct, err_4;
             return __generator(this, function (_a) {
@@ -130,7 +159,7 @@ var ProductsController = /** @class */ (function () {
                     case 1:
                         currentProduct = _a.sent();
                         if (!currentProduct) {
-                            res.status(404);
+                            next(new error_middleware_1.NotFound("id " + id + " not found"));
                         }
                         res.json(currentProduct);
                         return [3 /*break*/, 3];
