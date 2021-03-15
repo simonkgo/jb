@@ -43,40 +43,42 @@ var fs_1 = __importDefault(require("fs"));
 var util_1 = __importDefault(require("util"));
 var EmployeeRepository = /** @class */ (function () {
     function EmployeeRepository() {
-        this.writeFile = util_1.default.promisify(fs_1.default.writeFile);
-        this.readFile = util_1.default.promisify(fs_1.default.readFile);
     }
-    EmployeeRepository.prototype.getAllEmployee = function () {
+    EmployeeRepository.getAllEmployee = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var result, e_1;
+            var readFile, result, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.readFile("./src/database/employees.json")];
+                        readFile = util_1.default.promisify(fs_1.default.readFile);
+                        _a.label = 1;
                     case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, readFile("./src/database/employees.json", "utf-8")];
+                    case 2:
                         result = _a.sent();
                         return [2 /*return*/, JSON.parse(result)];
-                    case 2:
+                    case 3:
                         e_1 = _a.sent();
                         console.log(e_1.message);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeeRepository.prototype.saveAll = function (employeeArray) {
+    EmployeeRepository.saveAll = function (employeeArray) {
         return __awaiter(this, void 0, void 0, function () {
-            var data, _a;
+            var writeFile, data, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
+                        writeFile = util_1.default.promisify(fs_1.default.writeFile);
                         data = JSON.stringify(employeeArray);
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.writeFile("./src/database/employees.json", data)];
+                        return [4 /*yield*/, writeFile("./src/database/employees.json", data)];
                     case 2:
                         _b.sent();
                         return [3 /*break*/, 4];

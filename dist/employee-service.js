@@ -58,7 +58,7 @@ var EmployeeService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.employeeRepository.getAllEmployee()];
+                    case 0: return [4 /*yield*/, employee_repository_1.default.getAllEmployee()];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -71,7 +71,7 @@ var EmployeeService = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.employeeRepository.getAllEmployee()];
+                        return [4 /*yield*/, employee_repository_1.default.getAllEmployee()];
                     case 1:
                         employeesData = _b.sent();
                         if (employeesData.length < id)
@@ -93,12 +93,12 @@ var EmployeeService = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.employeeRepository.getAllEmployee()];
+                        return [4 /*yield*/, employee_repository_1.default.getAllEmployee()];
                     case 1:
                         employeesData = _b.sent();
                         employee.id = employeesData.length + 1;
                         employeesData.push(employee);
-                        this.employeeRepository.saveAll(employeesData);
+                        employee_repository_1.default.saveAll(employeesData);
                         return [2 /*return*/, employeesData];
                     case 2:
                         _a = _b.sent();
@@ -115,14 +115,14 @@ var EmployeeService = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.employeeRepository.getAllEmployee()];
+                        return [4 /*yield*/, employee_repository_1.default.getAllEmployee()];
                     case 1:
                         employeesData = _b.sent();
                         if (employeesData.length < employee.id)
                             return [2 /*return*/, { error: "employee not found" }];
                         employeeFromDbIndex = employeesData.findIndex(function (employeeDb) { return employeeDb.id === employee.id; });
                         employeesData.splice(employeeFromDbIndex, 1, employee);
-                        this.employeeRepository.saveAll(employeesData);
+                        employee_repository_1.default.saveAll(employeesData);
                         return [2 /*return*/, employeesData];
                     case 2:
                         _a = _b.sent();
@@ -139,14 +139,14 @@ var EmployeeService = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.employeeRepository.getAllEmployee()];
+                        return [4 /*yield*/, employee_repository_1.default.getAllEmployee()];
                     case 1:
                         employeesData = _b.sent();
                         if (employeesData.length < employee.id)
                             return [2 /*return*/, { error: "employee not found" }];
                         employeeFromDbIndex = employeesData.findIndex(function (employeeDb) { return employeeDb.id === employee.id; });
                         employeesData[employeeFromDbIndex] = __assign(__assign({}, employeesData[employeeFromDbIndex]), employee);
-                        this.employeeRepository.saveAll(employeesData);
+                        employee_repository_1.default.saveAll(employeesData);
                         return [2 /*return*/, employeesData];
                     case 2:
                         _a = _b.sent();
@@ -163,14 +163,14 @@ var EmployeeService = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.employeeRepository.getAllEmployee()];
+                        return [4 /*yield*/, employee_repository_1.default.getAllEmployee()];
                     case 1:
                         employeesData = _b.sent();
                         if (employeesData.length < id)
                             return [2 /*return*/, { error: "employee not found" }];
                         employeeFromDbIndex = employeesData.findIndex(function (employeeDb) { return employeeDb.id === id; });
                         employeesData.splice(employeeFromDbIndex, 1);
-                        this.employeeRepository.saveAll(employeesData);
+                        employee_repository_1.default.saveAll(employeesData);
                         return [2 /*return*/, employeesData];
                     case 2:
                         _a = _b.sent();
@@ -180,7 +180,6 @@ var EmployeeService = /** @class */ (function () {
             });
         });
     };
-    EmployeeService.employeeRepository = new employee_repository_1.default();
     return EmployeeService;
 }());
 exports.default = EmployeeService;
