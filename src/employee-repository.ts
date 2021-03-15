@@ -2,30 +2,23 @@ import fs from "fs";
 import util from "util";
 import IEmployee from "./employee";
 
-
 export default class EmployeeRepository {
-  private writeFile;
-  private readFile;
-
-  constructor() {
-    this.writeFile = util.promisify(fs.writeFile);
-    this.readFile = util.promisify(fs.readFile);
-  }
-
-  public async getAllEmployee() {
+  public static async getAllEmployee() {
+    
+    const readFile = util.promisify(fs.readFile);
     try {
-      const result = await this.readFile("./src/database/employees.json");
+      const result = await readFile("./src/database/employees.json", "utf-8");
       return JSON.parse(result);
     } catch (e) {
       console.log(e.message);
     }
   }
 
-  public async saveAll(employeeArray: Array<IEmployee>) {
+  public static async saveAll(employeeArray: Array<IEmployee>) {
+    const writeFile = util.promisify(fs.writeFile);
     const data = JSON.stringify(employeeArray);
     try {
-      await this.writeFile("./src/database/employees.json", data);
+      await writeFile("./src/database/employees.json", data);
     } catch {}
-
   }
 }

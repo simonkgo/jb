@@ -3,6 +3,7 @@ import express, { NextFunction } from "express";
 import IEmployee from "./employee";
 
 export default class EmployeeController {
+  
   public static async getAll(req: express.Request, res: express.Response) {
     try {
       const data = await EmployeeService.getAll();
