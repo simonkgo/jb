@@ -1,6 +1,6 @@
 import * as express from 'express';
 import ProductsService from "./products-service";
-import { Product } from './product';
+import Product from "./products.json";
 
 export class ProductsController {
     //אובייקט מסוג ראוט של אספרס שיכיל את הנתיבים עבור הפרודוקס;
