@@ -6,11 +6,13 @@ export default class EmployeeRepository {
   public static async getAllEmployee() {
     
     const readFile = util.promisify(fs.readFile);
-    try {
+   try {
       const result = await readFile("./src/database/employees.json", "utf-8");
+      console.log(result)
       return JSON.parse(result);
+
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
     }
   }
 

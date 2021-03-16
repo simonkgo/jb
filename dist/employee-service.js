@@ -50,6 +50,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var class_validator_1 = require("class-validator");
+var employee_1 = __importDefault(require("./employee"));
 var employee_repository_1 = __importDefault(require("./employee-repository"));
 var EmployeeService = /** @class */ (function () {
     function EmployeeService() {
@@ -134,24 +136,33 @@ var EmployeeService = /** @class */ (function () {
     };
     EmployeeService.updateEmployeeSomeProp = function (employee) {
         return __awaiter(this, void 0, void 0, function () {
-            var employeesData, employeeFromDbIndex, _a;
+            var employeesData, employeeFromDbIndex, employeMix, employeeValidate, errors, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        _b.trys.push([0, 3, , 4]);
                         return [4 /*yield*/, employee_repository_1.default.getAllEmployee()];
                     case 1:
                         employeesData = _b.sent();
                         if (employeesData.length < employee.id)
                             return [2 /*return*/, { error: "employee not found" }];
                         employeeFromDbIndex = employeesData.findIndex(function (employeeDb) { return employeeDb.id === employee.id; });
-                        employeesData[employeeFromDbIndex] = __assign(__assign({}, employeesData[employeeFromDbIndex]), employee);
+                        employeMix = __assign(__assign({}, employeesData[employeeFromDbIndex]), employee);
+                        employeeValidate = new employee_1.default(employeMix.firstName, employeMix.lastName, employeMix.title, employeMix.country, employeMix.city, employeMix.birthDate, employeMix.id);
+                        return [4 /*yield*/, class_validator_1.validate(employeeValidate)];
+                    case 2:
+                        errors = _b.sent();
+                        if (errors.length > 0) {
+                            console.log(errors);
+                            return [2 /*return*/, { errors: errors }];
+                        }
+                        employeesData[employeeFromDbIndex] = employeeValidate;
                         employee_repository_1.default.saveAll(employeesData);
                         return [2 /*return*/, employeesData];
-                    case 2:
+                    case 3:
                         _a = _b.sent();
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });

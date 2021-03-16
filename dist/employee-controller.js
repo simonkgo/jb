@@ -51,10 +51,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var employee_service_1 = __importDefault(require("./employee-service"));
+var employee_1 = __importDefault(require("./employee"));
+var class_validator_1 = require("class-validator");
+var error_middelware_1 = require("./error-middelware/error-middelware");
 var EmployeeController = /** @class */ (function () {
     function EmployeeController() {
     }
-    EmployeeController.getAll = function (req, res) {
+    EmployeeController.getAll = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var data, _a;
             return __generator(this, function (_b) {
@@ -68,13 +71,14 @@ var EmployeeController = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         _a = _b.sent();
+                        next(new error_middelware_1.BadRequest("server not found"));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeeController.getOneEmployee = function (req, res) {
+    EmployeeController.getOneEmployee = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var employee, _a;
             return __generator(this, function (_b) {
@@ -88,79 +92,98 @@ var EmployeeController = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         _a = _b.sent();
+                        next(new error_middelware_1.BadRequest("server not found"));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeeController.addEmployee = function (req, res) {
+    EmployeeController.addEmployee = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, _a;
+            var _a, id, firstName, lastName, birthDate, title, country, city, employee, errors, result, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _a = req.body, id = _a.id, firstName = _a.firstName, lastName = _a.lastName, birthDate = _a.birthDate, title = _a.title, country = _a.country, city = _a.city;
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 4, , 5]);
+                        employee = new employee_1.default(firstName, lastName, title, country, city, birthDate, id);
+                        return [4 /*yield*/, class_validator_1.validate(employee)];
+                    case 2:
+                        errors = _c.sent();
+                        if (errors.length) {
+                            res.status(400).json(errors);
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, employee_service_1.default.addEmployee(req.body)];
+                    case 3:
+                        result = _c.sent();
+                        res.json(result);
+                        return [3 /*break*/, 5];
+                    case 4:
+                        _b = _c.sent();
+                        next(new error_middelware_1.BadRequest("server not found"));
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    EmployeeController.updateEmployee = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, firstName, lastName, birthDate, title, country, city, employee, errors, result, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 3, , 4]);
+                        _a = req.body, firstName = _a.firstName, lastName = _a.lastName, birthDate = _a.birthDate, title = _a.title, country = _a.country, city = _a.city;
+                        employee = new employee_1.default(firstName, lastName, title, country, city, birthDate, +req.params.id);
+                        return [4 /*yield*/, class_validator_1.validate(employee)];
+                    case 1:
+                        errors = _c.sent();
+                        if (errors.length) {
+                            res.status(400).json(errors);
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, employee_service_1.default.updateEmployee(employee)];
+                    case 2:
+                        result = _c.sent();
+                        res.json(result);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        _b = _c.sent();
+                        next(new error_middelware_1.BadRequest("server not found"));
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    EmployeeController.updateSomeEmployeeProp = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            var employeePartProp, result, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, employee_service_1.default.addEmployee(req.body)];
+                        employeePartProp = __assign(__assign({}, req.body), { id: +req.params.id });
+                        return [4 /*yield*/, employee_service_1.default.updateEmployeeSomeProp(employeePartProp)];
                     case 1:
                         result = _b.sent();
                         res.json(result);
                         return [3 /*break*/, 3];
                     case 2:
                         _a = _b.sent();
+                        next(new error_middelware_1.BadRequest("server not found"));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeeController.updateEmployee = function (req, res) {
-        return __awaiter(this, void 0, void 0, function () {
-            var employee, result, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        employee = __assign(__assign({}, req.body), { id: +req.params.id });
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, employee_service_1.default.updateEmployee(employee)];
-                    case 2:
-                        result = _b.sent();
-                        res.json(result);
-                        return [3 /*break*/, 4];
-                    case 3:
-                        _a = _b.sent();
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    EmployeeController.updateSomeEmployeeProp = function (req, res) {
-        return __awaiter(this, void 0, void 0, function () {
-            var employee, result, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        employee = __assign(__assign({}, req.body), { id: +req.params.id });
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, employee_service_1.default.updateEmployeeSomeProp(employee)];
-                    case 2:
-                        result = _b.sent();
-                        res.json(result);
-                        return [3 /*break*/, 4];
-                    case 3:
-                        _a = _b.sent();
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    EmployeeController.deleteEmployee = function (req, res) {
+    EmployeeController.deleteEmployee = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var result, _a;
             return __generator(this, function (_b) {
@@ -174,6 +197,7 @@ var EmployeeController = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         _a = _b.sent();
+                        next(new error_middelware_1.BadRequest("server not found"));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }

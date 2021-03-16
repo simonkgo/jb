@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var employee_router_1 = __importDefault(require("./employee-router"));
+var error_middelware_1 = require("./error-middelware/error-middelware");
 var Server = /** @class */ (function () {
     function Server() {
     }
@@ -19,7 +20,10 @@ var Server = /** @class */ (function () {
     Server.buildServer = function () {
         this.app = express_1.default();
         this.app.use(express_1.default.json());
-        this.app.use(employee_router_1.default.employeeRouting());
+        this.app.use(employee_router_1.default.employeeRouting(), error_middelware_1.httpMiddelwareError);
+        this.app.use(function (req, res) {
+            return res.status(404).json({ errors: "page not found" });
+        });
         this.app.listen(4000, function () { return console.log("server work at port 4000"); });
     };
     return Server;

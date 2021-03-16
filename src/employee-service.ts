@@ -1,3 +1,5 @@
+import { validate } from "class-validator";
+import Employee from "./employee";
 import IEmployee from "./employee";
 import EmployeeRepository from "./employee-repository";
 
@@ -53,8 +55,15 @@ export default class EmployeeService {
         (employeeDb: IEmployee) => employeeDb.id === employee.id
       );
       
-      employeesData[employeeFromDbIndex] = {...employeesData[employeeFromDbIndex],...employee}
-    
+      //  
+      const employeMix = {...employeesData[employeeFromDbIndex],...employee}
+      const employeeValidate = new Employee(employeMix.firstName,employeMix.lastName,employeMix.title,employeMix.country,employeMix.city,employeMix.birthDate,employeMix.id)
+      const errors = await validate(employeeValidate);
+      if(errors.length > 0){
+        console.log(errors)
+        return {errors}
+      }
+      employeesData[employeeFromDbIndex] = employeeValidate
       EmployeeRepository.saveAll(employeesData);
       
       return employeesData;
