@@ -38,8 +38,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployeesController = void 0;
 var express = require("express");
+var employee_1 = require("./employee");
 var Employees_service_1 = require("./Employees-service");
 var error_middleware_1 = require("../middleware/error-middleware");
+var class_validator_1 = require("class-validator");
 var EmployeesController = /** @class */ (function () {
     function EmployeesController() {
         this.router = express.Router();
@@ -100,77 +102,101 @@ var EmployeesController = /** @class */ (function () {
     };
     EmployeesController.prototype.post = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var employee, err_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, id, firstName, lastName, title, country, city, birthDate, newEmployee, errors, employee, err_3;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, Employees_service_1.default.post(req.body)];
+                        _b.trys.push([0, 3, , 4]);
+                        _a = req.body, id = _a.id, firstName = _a.firstName, lastName = _a.lastName, title = _a.title, country = _a.country, city = _a.city, birthDate = _a.birthDate;
+                        newEmployee = new employee_1.Employee(id, firstName, lastName, title, country, city, birthDate);
+                        return [4 /*yield*/, class_validator_1.validate(newEmployee)];
                     case 1:
-                        employee = _a.sent();
-                        res.status(201).json(employee);
-                        return [3 /*break*/, 3];
+                        errors = _b.sent();
+                        if (errors.length) {
+                            next(new error_middleware_1.BadRequest('Bad Request Costumized'));
+                        }
+                        return [4 /*yield*/, Employees_service_1.default.post(req.body)];
                     case 2:
-                        err_3 = _a.sent();
+                        employee = _b.sent();
+                        res.status(201).json(employee);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_3 = _b.sent();
                         next(new error_middleware_1.BadRequest('Bad Request Costumized'));
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
     EmployeesController.prototype.put = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var idParam, employee, result, err_4;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, id, firstName, lastName, title, country, city, birthDate, newEmployee, errors, idParam, employee, result, err_4;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        _b.trys.push([0, 3, , 4]);
+                        _a = req.body, id = _a.id, firstName = _a.firstName, lastName = _a.lastName, title = _a.title, country = _a.country, city = _a.city, birthDate = _a.birthDate;
+                        newEmployee = new employee_1.Employee(id, firstName, lastName, title, country, city, birthDate);
+                        return [4 /*yield*/, class_validator_1.validate(newEmployee, { groups: ['patch', 'put'] })];
+                    case 1:
+                        errors = _b.sent();
+                        if (errors.length) {
+                            next(new error_middleware_1.BadRequest('Bad Request Costumized'));
+                        }
                         idParam = +req.params.id;
                         employee = req.body;
                         employee.id = idParam;
                         return [4 /*yield*/, Employees_service_1.default.put(employee)];
-                    case 1:
-                        result = _a.sent();
+                    case 2:
+                        result = _b.sent();
                         if (!result) {
                             next(new error_middleware_1.NotFound("id " + idParam + " not found"));
                         }
                         res.json(result);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        err_4 = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_4 = _b.sent();
                         next(new error_middleware_1.BadRequest('Bad Request Costumized'));
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
     EmployeesController.prototype.patch = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, employee, result, err_5;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, id, firstName, lastName, title, country, city, birthDate, newEmployee, errors, idp, employee, result, err_5;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        id = +req.params.id;
-                        employee = req.body;
-                        employee.id = id;
-                        return [4 /*yield*/, Employees_service_1.default.patch(employee)];
+                        _b.trys.push([0, 3, , 4]);
+                        _a = req.body, id = _a.id, firstName = _a.firstName, lastName = _a.lastName, title = _a.title, country = _a.country, city = _a.city, birthDate = _a.birthDate;
+                        newEmployee = new employee_1.Employee(id, firstName, lastName, title, country, city, birthDate);
+                        return [4 /*yield*/, class_validator_1.validate(newEmployee, { groups: ['patch'] })];
                     case 1:
-                        result = _a.sent();
+                        errors = _b.sent();
+                        if (errors.length) {
+                            next(new error_middleware_1.BadRequest('Bad Request Costumized'));
+                        }
+                        idp = +req.params.id;
+                        employee = req.body;
+                        employee.id = idp;
+                        return [4 /*yield*/, Employees_service_1.default.patch(employee)];
+                    case 2:
+                        result = _b.sent();
                         if (!result) {
                             next(new error_middleware_1.NotFound("id " + id + " not found"));
                         }
                         else {
                             res.json(result);
                         }
-                        return [3 /*break*/, 3];
-                    case 2:
-                        err_5 = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_5 = _b.sent();
                         next(new error_middleware_1.BadRequest('Bad Request Costumized'));
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });

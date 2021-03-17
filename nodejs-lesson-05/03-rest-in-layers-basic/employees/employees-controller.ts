@@ -2,6 +2,7 @@ import * as express from 'express';
 import {Employee} from './employee';
 import EmployeesService from "./Employees-service";
 import{NotFound, BadRequest} from '../middleware/error-middleware'
+import { validate } from 'class-validator';
 
 
 export class EmployeesController {
@@ -49,6 +50,13 @@ export class EmployeesController {
 
     private async post(req:express.Request , res:express.Response,next:express.NextFunction){
         try{
+            const {id, firstName, lastName, title, country,city, birthDate} = req.body
+            const newEmployee = new Employee(id,firstName, lastName, title, country,city, birthDate)
+            const errors = await validate(newEmployee)
+            if(errors.length){
+                next(new BadRequest('Bad Request Costumized') )
+            }
+
             const employee: Employee = await EmployeesService.post(req.body);
             res.status(201).json(employee)
         }
@@ -60,6 +68,14 @@ export class EmployeesController {
 
     private async put (req:express.Request, res:express.Response,next:express.NextFunction){
         try{
+            const {id, firstName, lastName, title, country,city, birthDate} = req.body
+            const newEmployee = new Employee(id,firstName, lastName, title, country,city, birthDate)
+            const errors = await validate(newEmployee,{groups:['patch','put']})
+            if(errors.length){
+                next(new BadRequest('Bad Request Costumized') )
+            }
+
+
             const idParam:number = +req.params.id
             const employee:Employee = req.body
             employee.id=idParam
@@ -76,9 +92,17 @@ export class EmployeesController {
     }
     private async patch (req:express.Request, res:express.Response,next:express.NextFunction){
        try{
-            const id:number = +req.params.id
+        const {id, firstName, lastName, title, country,city, birthDate} = req.body
+        const newEmployee = new Employee(id,firstName, lastName, title, country,city, birthDate)
+        const errors = await validate(newEmployee,{groups:['patch']})
+        if(errors.length){
+            next(new BadRequest('Bad Request Costumized') )
+        }
+
+
+            const idp:number = +req.params.id
             const employee:Employee = req.body
-            employee.id=id
+            employee.id=idp
             const result: Employee = await EmployeesService.patch(employee)
             if(!result) {
                 
