@@ -49,12 +49,12 @@ var ProductsController = /** @class */ (function () {
     }
     ;
     ProductsController.prototype.activateProductsControllerRoutes = function () {
-        this.router.get("/products/auth", this.auth);
         this.router.get("/products", this.all);
         this.router.get("/products/:id", this.getOne);
         this.router.post("/products", this.post);
         this.router.put("/products/:id", this.put);
         this.router.patch("/products/:id", this.patch);
+        this.router.get("/*", this.auth);
     };
     ProductsController.prototype.auth = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
@@ -63,7 +63,7 @@ var ProductsController = /** @class */ (function () {
                     next(new error_middleware_1.Forbidden("Foridden"));
                 }
                 catch (err) {
-                    res.status(400).send(err.message);
+                    next(new error_middleware_1.BadRequest('Bad Request'));
                 }
                 ;
                 return [2 /*return*/];
@@ -71,7 +71,7 @@ var ProductsController = /** @class */ (function () {
         });
     };
     ;
-    ProductsController.prototype.patch = function (req, res) {
+    ProductsController.prototype.patch = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var id, product, result, err_1;
             return __generator(this, function (_a) {
@@ -85,16 +85,20 @@ var ProductsController = /** @class */ (function () {
                     case 1:
                         result = _a.sent();
                         res.json(result);
+                        if (!result) {
+                            next(new error_middleware_1.NotFound("ID " + id + " not found"));
+                        }
                         return [3 /*break*/, 3];
                     case 2:
                         err_1 = _a.sent();
-                        throw err_1;
+                        next(new error_middleware_1.BadRequest('Bad Request'));
+                        return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    ProductsController.prototype.put = function (req, res) {
+    ProductsController.prototype.put = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var id, product, result, err_2;
             return __generator(this, function (_a) {
@@ -108,16 +112,20 @@ var ProductsController = /** @class */ (function () {
                     case 1:
                         result = _a.sent();
                         res.json(result);
+                        if (!result) {
+                            next(new error_middleware_1.NotFound("ID " + id + " not found"));
+                        }
                         return [3 /*break*/, 3];
                     case 2:
                         err_2 = _a.sent();
-                        throw err_2;
+                        next(new error_middleware_1.BadRequest('Bad Request'));
+                        return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    ProductsController.prototype.post = function (req, res) {
+    ProductsController.prototype.post = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, name_1, price, stock, product, errors, result, err_3;
             return __generator(this, function (_b) {
@@ -141,7 +149,8 @@ var ProductsController = /** @class */ (function () {
                         return [3 /*break*/, 4];
                     case 3:
                         err_3 = _b.sent();
-                        throw err_3;
+                        next(new error_middleware_1.BadRequest('Bad Request'));
+                        return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
             });
@@ -159,14 +168,13 @@ var ProductsController = /** @class */ (function () {
                     case 1:
                         currentProduct = _a.sent();
                         if (!currentProduct) {
-                            next(new error_middleware_1.NotFound("id " + id + " not found"));
+                            next(new error_middleware_1.NotFound("ID " + id + " not found"));
                         }
                         res.json(currentProduct);
                         return [3 /*break*/, 3];
                     case 2:
                         err_4 = _a.sent();
-                        console.log(err_4);
-                        res.status(400).send(err_4.message);
+                        next(new error_middleware_1.BadRequest('Bad Request'));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -190,8 +198,7 @@ var ProductsController = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         err_5 = _a.sent();
-                        console.log(err_5);
-                        response.status(400).send(err_5.message);
+                        next(new error_middleware_1.BadRequest('Bad Request'));
                         return [3 /*break*/, 3];
                     case 3:
                         ;

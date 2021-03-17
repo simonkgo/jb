@@ -29,8 +29,8 @@ class EmployeesService {
     public async partlyUpdate(employee: Employee) {
         const employees: Employee[] = await EmployeesRepository.getAll()
         const currentEmployee: Employee = employees.find(emp => emp.id === employee.id)!
-        for (let key in employee) {
-            if (key in currentEmployee) {
+        for (let key in currentEmployee) {
+            if (key in employee && employee[key] !== undefined) {
                 currentEmployee[key] = employee[key]
             }
         }

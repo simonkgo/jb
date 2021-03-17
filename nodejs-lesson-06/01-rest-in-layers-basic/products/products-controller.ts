@@ -2,7 +2,7 @@ import * as express from 'express'
 import { Product } from "./product"
 import ProductsService from './prducts-service'
 import { validate } from 'class-validator';
-import { NotFound, Forbidden } from '../middleware/error-middleware';
+import { NotFound, Forbidden, BadRequest } from '../middleware/error-middleware';
 
 export class ProductsController {
     private _router: any;
@@ -13,50 +13,55 @@ export class ProductsController {
     };
 
     private activateProductsControllerRoutes() {
-        this.router.get("/products/auth", this.auth);
         this.router.get("/products", this.all)
         this.router.get("/products/:id", this.getOne)
         this.router.post("/products", this.post)
         this.router.put("/products/:id", this.put)
         this.router.patch("/products/:id", this.patch)
+        this.router.get("/*", this.auth);
     }
 
     private async auth(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
             next(new Forbidden(`Foridden`))
         } catch (err) {
-            res.status(400).send(err.message);
+            next(new BadRequest('Bad Request'))
         };
     };
 
-    private async patch(req: express.Request, res: express.Response) {
+    private async patch(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
             const id: number = +req.params.id
             const product: Product = req.body
             product.id = id
             const result: Product = await ProductsService.patch(product)
             res.json(result)
-
+            if (!result) {
+                next(new NotFound(`ID ${id} not found`))
+            }
 
         } catch (err) {
-            throw err
+            next(new BadRequest('Bad Request'))
         }
     }
 
 
-    private async put(req: express.Request, res: express.Response) {
+    private async put(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
             const id: number = +req.params.id
             const product: Product = req.body
             product.id = id
             const result = await ProductsService.put(product)
             res.json(result)
+            if (!result) {
+                next(new NotFound(`ID ${id} not found`))
+            }
 
         } catch (err) {
-            throw err
+            next(new BadRequest('Bad Request'))
         }
     }
-    private async post(req: express.Request, res: express.Response) {
+    private async post(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
             const { name, price, stock } = req.body
             const product: Product = new Product(name, price, stock)
@@ -69,7 +74,7 @@ export class ProductsController {
             const result: Product = await ProductsService.post(req.body)
             res.status(201).json(result)
         } catch (err) {
-            throw err
+            next(new BadRequest('Bad Request'))
         }
 
     }
@@ -81,18 +86,17 @@ export class ProductsController {
             const id: number = +req.params.id
             const currentProduct = await ProductsService.getOne(id)
             if (!currentProduct) {
-                next(new NotFound(`id ${id} not found`))
+                next(new NotFound(`ID ${id} not found`))
             }
             res.json(currentProduct)
 
         } catch (err) {
 
-            console.log(err)
-            res.status(400).send(err.message)
+            next(new BadRequest('Bad Request'))
 
         }
     }
-    private async all(request: express.Request, response: express.Response, next) {
+    private async all(request: express.Request, response: express.Response, next: express.NextFunction) {
 
         try {
 
@@ -106,8 +110,7 @@ export class ProductsController {
 
         } catch (err) {
 
-            console.log(err)
-            response.status(400).send(err.message);
+            next(new BadRequest('Bad Request'))
 
         };
 

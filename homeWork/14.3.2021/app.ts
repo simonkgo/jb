@@ -1,5 +1,7 @@
 import * as express from 'express'
 import { EmployeesController } from './employees/employees-controller'
+import { httpErrorMiddleware } from './middleware/error-middleware'
+
 
 
 export default class Server {
@@ -12,8 +14,9 @@ export default class Server {
     activate() {
         this.app = express()
         this.app.use(express.json())
-        this.app.listen(3000, () => { console.log("Listen on port 3000") })
         this.app.use("/api/v2", new EmployeesController().router)
+        this.app.use(httpErrorMiddleware)
+        this.app.listen(3000, () => { console.log("Listen on port 3000") })
     }
 }
 

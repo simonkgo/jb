@@ -1,12 +1,8 @@
-/* -------------------------------------------------------------------------- */
-/*                              Error Middleware                              */
-/* -------------------------------------------------------------------------- */
-
 import { NextFunction, Request, Response } from "express"
 
- class HttpError {
-    public status = 400
-    public name: string = "Bad Request"
+class HttpError {
+    public status: number
+    public name: string
     public message: string
     constructor(mesaage: string) {
         this.message = mesaage
@@ -14,25 +10,22 @@ import { NextFunction, Request, Response } from "express"
 }
 
 export class NotFound extends HttpError {
-    public status = 404
+    public status: number = 404
     public name: string = "Not Found"
-    constructor(message: string) {
-        super(message)
+    public message: string
+    constructor(mesaage: string) {
+        super(mesaage)
     }
 }
-export class Forbidden extends HttpError {
-    public status = 403
-    public name: string = "Forbidden"
-    constructor(message: string) {
-        super(message)
-    }
-}
+
 export class BadRequest extends HttpError {
-    public status = 400
+    public status: number = 400
     public name: string = "Bad Request"
-    constructor(message: string) {
-        super(message)
+    public message: string
+    constructor(mesaage: string) {
+        super(mesaage)
     }
+
 }
 
 export const httpErrorMiddleware = (err: any, req: Request, res: Response, next: NextFunction) => {

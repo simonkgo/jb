@@ -1,7 +1,4 @@
 "use strict";
-/* -------------------------------------------------------------------------- */
-/*                              Error Middleware                              */
-/* -------------------------------------------------------------------------- */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -18,19 +15,17 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.httpErrorMiddleware = exports.BadRequest = exports.Forbidden = exports.NotFound = void 0;
+exports.httpErrorMiddleware = exports.BadRequest = exports.NotFound = void 0;
 var HttpError = /** @class */ (function () {
     function HttpError(mesaage) {
-        this.status = 400;
-        this.name = "Bad Request";
         this.message = mesaage;
     }
     return HttpError;
 }());
 var NotFound = /** @class */ (function (_super) {
     __extends(NotFound, _super);
-    function NotFound(message) {
-        var _this = _super.call(this, message) || this;
+    function NotFound(mesaage) {
+        var _this = _super.call(this, mesaage) || this;
         _this.status = 404;
         _this.name = "Not Found";
         return _this;
@@ -38,21 +33,10 @@ var NotFound = /** @class */ (function (_super) {
     return NotFound;
 }(HttpError));
 exports.NotFound = NotFound;
-var Forbidden = /** @class */ (function (_super) {
-    __extends(Forbidden, _super);
-    function Forbidden(message) {
-        var _this = _super.call(this, message) || this;
-        _this.status = 403;
-        _this.name = "Forbidden";
-        return _this;
-    }
-    return Forbidden;
-}(HttpError));
-exports.Forbidden = Forbidden;
 var BadRequest = /** @class */ (function (_super) {
     __extends(BadRequest, _super);
-    function BadRequest(message) {
-        var _this = _super.call(this, message) || this;
+    function BadRequest(mesaage) {
+        var _this = _super.call(this, mesaage) || this;
         _this.status = 400;
         _this.name = "Bad Request";
         return _this;

@@ -112,8 +112,8 @@ var EmployeesService = /** @class */ (function () {
                     case 1:
                         employees = _a.sent();
                         currentEmployee = employees.find(function (emp) { return emp.id === employee.id; });
-                        for (key in employee) {
-                            if (key in currentEmployee) {
+                        for (key in currentEmployee) {
+                            if (key in employee && employee[key] !== undefined) {
                                 currentEmployee[key] = employee[key];
                             }
                         }

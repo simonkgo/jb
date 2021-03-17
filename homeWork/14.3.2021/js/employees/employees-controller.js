@@ -37,7 +37,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployeesController = void 0;
+var class_validator_1 = require("class-validator");
 var express = require("express");
+var error_middleware_1 = require("../middleware/error-middleware");
+var employee_1 = require("./employee");
 var employees_service_1 = require("./employees-service");
 var EmployeesController = /** @class */ (function () {
     function EmployeesController() {
@@ -59,8 +62,24 @@ var EmployeesController = /** @class */ (function () {
         this.router.put("/employees/:id", this.put);
         this.router.patch("/employees/:id", this.patch);
         this.router.delete("/employees/:id", this.delete);
+        this.router.use("/*", this.routerError);
     };
-    EmployeesController.prototype.all = function (req, res) {
+    EmployeesController.prototype.routerError = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                try {
+                    next(new error_middleware_1.NotFound("Route not found"));
+                }
+                catch (err) {
+                    next(new error_middleware_1.BadRequest('Bad Request'));
+                }
+                ;
+                return [2 /*return*/];
+            });
+        });
+    };
+    ;
+    EmployeesController.prototype.all = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var employees, err_1;
             return __generator(this, function (_a) {
@@ -71,20 +90,20 @@ var EmployeesController = /** @class */ (function () {
                     case 1:
                         employees = _a.sent();
                         if (!employees) {
-                            res.status(404);
+                            next(new error_middleware_1.NotFound("Not Found"));
                         }
                         res.json(employees);
                         return [3 /*break*/, 3];
                     case 2:
                         err_1 = _a.sent();
-                        res.status(400).send(err_1.message);
+                        next(new error_middleware_1.BadRequest("Bad Request"));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeesController.prototype.one = function (req, res) {
+    EmployeesController.prototype.one = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var id, employee, err_2;
             return __generator(this, function (_a) {
@@ -96,89 +115,115 @@ var EmployeesController = /** @class */ (function () {
                     case 1:
                         employee = _a.sent();
                         if (!employee) {
-                            res.status(404);
+                            next(new error_middleware_1.NotFound("ID " + id + " not found"));
                         }
                         res.json(employee);
                         return [3 /*break*/, 3];
                     case 2:
                         err_2 = _a.sent();
-                        res.status(400).send(err_2.message);
+                        next(new error_middleware_1.BadRequest("Bad Request"));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeesController.prototype.post = function (req, res) {
+    EmployeesController.prototype.post = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var employee, err_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, firstName, lastName, title, country, city, birthDate, employee, errors, result, err_3;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, employees_service_1.default.postOne(req.body)];
+                        _b.trys.push([0, 3, , 4]);
+                        _a = req.body, firstName = _a.firstName, lastName = _a.lastName, title = _a.title, country = _a.country, city = _a.city, birthDate = _a.birthDate;
+                        employee = new employee_1.Employee(firstName, lastName, title, country, city, birthDate);
+                        return [4 /*yield*/, class_validator_1.validate(employee)];
                     case 1:
-                        employee = _a.sent();
-                        if (!employee) {
-                            res.status(404);
+                        errors = _b.sent();
+                        if (errors.length) {
+                            res.status(400).json(errors);
+                            return [2 /*return*/];
                         }
-                        res.status(201).json(employee);
-                        return [3 /*break*/, 3];
+                        return [4 /*yield*/, employees_service_1.default.postOne(req.body)];
                     case 2:
-                        err_3 = _a.sent();
-                        throw err_3;
-                    case 3: return [2 /*return*/];
+                        result = _b.sent();
+                        res.status(201).json(result);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_3 = _b.sent();
+                        next(new error_middleware_1.BadRequest('Bad Request'));
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeesController.prototype.put = function (req, res) {
+    EmployeesController.prototype.put = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, employee, currentEmployee, err_4;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var id, _a, firstName, lastName, title, country, city, birthDate, employee, errors, currentEmployee, err_4;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        _b.trys.push([0, 3, , 4]);
                         id = +req.params.id;
-                        employee = req.body;
+                        _a = req.body, firstName = _a.firstName, lastName = _a.lastName, title = _a.title, country = _a.country, city = _a.city, birthDate = _a.birthDate;
+                        employee = new employee_1.Employee(firstName, lastName, title, country, city, birthDate);
                         employee.id = id;
+                        return [4 /*yield*/, class_validator_1.validate(employee)];
+                    case 1:
+                        errors = _b.sent();
+                        if (errors.length) {
+                            res.status(400).json(errors);
+                            return [2 /*return*/];
+                        }
                         return [4 /*yield*/, employees_service_1.default.updateOne(employee)];
-                    case 1:
-                        currentEmployee = _a.sent();
-                        res.json(currentEmployee);
-                        return [3 /*break*/, 3];
                     case 2:
-                        err_4 = _a.sent();
-                        throw err_4;
-                    case 3: return [2 /*return*/];
+                        currentEmployee = _b.sent();
+                        res.status(201).json(currentEmployee);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_4 = _b.sent();
+                        next(new error_middleware_1.BadRequest('Bad Request'));
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeesController.prototype.patch = function (req, res) {
+    EmployeesController.prototype.patch = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, employee, currentEmployee, err_5;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var id, _a, firstName, lastName, title, country, city, birthDate, employee, errors, currentEmployee, err_5;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        _b.trys.push([0, 3, , 4]);
                         id = +req.params.id;
-                        employee = req.body;
+                        _a = req.body, firstName = _a.firstName, lastName = _a.lastName, title = _a.title, country = _a.country, city = _a.city, birthDate = _a.birthDate;
+                        employee = new employee_1.Employee(firstName, lastName, title, country, city, birthDate);
                         employee.id = id;
-                        return [4 /*yield*/, employees_service_1.default.partlyUpdate(employee)];
+                        console.log(employee);
+                        return [4 /*yield*/, class_validator_1.validate(employee)];
                     case 1:
-                        currentEmployee = _a.sent();
-                        res.json(currentEmployee);
-                        return [3 /*break*/, 3];
+                        errors = _b.sent();
+                        if (errors.length) {
+                            res.status(400).json(errors);
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, employees_service_1.default.partlyUpdate(employee)];
                     case 2:
-                        err_5 = _a.sent();
-                        throw err_5;
-                    case 3: return [2 /*return*/];
+                        currentEmployee = _b.sent();
+                        res.json(currentEmployee);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_5 = _b.sent();
+                        next(new error_middleware_1.BadRequest('Bad Request'));
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeesController.prototype.delete = function (req, res) {
+    EmployeesController.prototype.delete = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var id, result, err_6;
             return __generator(this, function (_a) {
@@ -193,7 +238,8 @@ var EmployeesController = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         err_6 = _a.sent();
-                        throw err_6;
+                        next(new error_middleware_1.BadRequest("Bad Request"));
+                        return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });

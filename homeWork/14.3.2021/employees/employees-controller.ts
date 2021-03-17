@@ -1,4 +1,6 @@
+import { validate } from 'class-validator';
 import * as express from 'express'
+import { BadRequest, NotFound } from '../middleware/error-middleware';
 import { Employee } from './employee';
 import EmployeesService from './employees-service'
 
@@ -22,9 +24,18 @@ export class EmployeesController {
         this.router.put("/employees/:id", this.put)
         this.router.patch("/employees/:id", this.patch)
         this.router.delete("/employees/:id", this.delete)
+        this.router.use("/*", this.routerError)
     }
 
-    private async all(req: express.Request, res: express.Response) {
+    private async routerError(req: express.Request, res: express.Response, next: express.NextFunction) {
+        try {
+            next(new NotFound("Route not found"))
+        } catch (err) {
+            next(new BadRequest('Bad Request'))
+        };
+    };
+
+    private async all(req: express.Request, res: express.Response, next: express.NextFunction) {
 
         try {
 
@@ -32,7 +43,7 @@ export class EmployeesController {
 
             if (!employees) {
 
-                res.status(404)
+                next(new NotFound(`Not Found`))
 
             }
 
@@ -40,66 +51,84 @@ export class EmployeesController {
 
         } catch (err) {
 
-            res.status(400).send(err.message);
+            next(new BadRequest("Bad Request"));
 
         }
 
     }
 
-    private async one(req: express.Request, res: express.Response) {
+    private async one(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
             const id = +req.params.id
             const employee = await EmployeesService.getOne(id)
             if (!employee) {
-                res.status(404)
+                next(new NotFound(`ID ${id} not found`))
             }
             res.json(employee)
 
         } catch (err) {
-            res.status(400).send(err.message)
+            next(new BadRequest("Bad Request"));
         }
     }
 
-    private async post(req: express.Request, res: express.Response) {
+    private async post(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
-            const employee: Employee = await EmployeesService.postOne(req.body)
-            if (!employee) {
-                res.status(404)
+            const { firstName, lastName, title, country, city, birthDate } = req.body
+            const employee: Employee = new Employee(firstName, lastName, title, country, city, birthDate)
+            const errors = await validate(employee)
+            if (errors.length) {
+                res.status(400).json(errors)
+                return
             }
-            res.status(201).json(employee)
+            const result: Employee = await EmployeesService.postOne(req.body)
+            res.status(201).json(result)
         } catch (err) {
-            throw err
+            next(new BadRequest('Bad Request'))
         }
     }
-    private async put(req: express.Request, res: express.Response) {
+    private async put(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
             const id: number = +req.params.id
-            const employee: Employee = req.body
+            const { firstName, lastName, title, country, city, birthDate } = req.body
+            const employee: Employee = new Employee(firstName, lastName, title, country, city, birthDate)
             employee.id = id
+            const errors = await validate(employee)
+            if (errors.length) {
+                res.status(400).json(errors)
+                return
+            }
             const currentEmployee = await EmployeesService.updateOne(employee)
-            res.json(currentEmployee)
+            res.status(201).json(currentEmployee)
         } catch (err) {
-            throw err
+            next(new BadRequest('Bad Request'))
         }
     }
-    private async patch(req: express.Request, res: express.Response) {
+    private async patch(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
             const id: number = +req.params.id
-            const employee: Employee = req.body
+            const { firstName, lastName, title, country, city, birthDate } = req.body
+            const employee: Employee = new Employee(firstName, lastName, title, country, city, birthDate)
             employee.id = id
+            console.log(employee)
+            const errors = await validate(employee)
+            if (errors.length) {
+                res.status(400).json(errors)
+                return
+            }
             const currentEmployee = await EmployeesService.partlyUpdate(employee)
             res.json(currentEmployee)
         } catch (err) {
-            throw err
+            next(new BadRequest('Bad Request'))
         }
     }
-    private async delete(req: express.Request, res: express.Response) {
+    private async delete(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
             const id: number = +req.params.id
             const result = await EmployeesService.deleteOne(id)
             res.status(204).json("Deleted")
         } catch (err) {
-            throw err
+            next(new BadRequest("Bad Request"));
+
         }
 
     }
