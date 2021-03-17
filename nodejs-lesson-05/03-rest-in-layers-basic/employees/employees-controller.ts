@@ -1,6 +1,7 @@
 import * as express from 'express';
 import {Employee} from './employee';
 import EmployeesService from "./Employees-service";
+import{NotFound, BadRequest} from '../middleware/error-middleware'
 
 
 export class EmployeesController {
@@ -21,67 +22,75 @@ export class EmployeesController {
         
     }
 
-    private async all (req:express.Request, res:express.Response){
+    private async all (req:express.Request, res:express.Response,next:express.NextFunction){
     
         try {
             const employees = await EmployeesService.all()        
             res.json(employees)
         }
         catch(err){
-            res.status(400).send(err.message)
+            next(new BadRequest('Bad Request Costumized') )
         }
     }
 
-    private async getOne (req: express.Request, res:express.Response) {
+    private async getOne (req: express.Request, res:express.Response,next:express.NextFunction) {
         try{
             const id:number = +req.params.id;
             const employee = await EmployeesService.getOne(id)
             if(!employee) {
-                res.status(404).send(`id ${id} not found`)
+                next(new NotFound(`id ${id} not found`) )
             }
             res.json(employee)
         }
         catch(err) {
-            res.status(400).send(err.message)
+            next(new BadRequest('Bad Request Costumized') )
         }
     }
 
-    private async post(req:express.Request , res:express.Response){
+    private async post(req:express.Request , res:express.Response,next:express.NextFunction){
         try{
             const employee: Employee = await EmployeesService.post(req.body);
             res.status(201).json(employee)
         }
         catch (err){
-            res.status(400).send(err.message)
+            next(new BadRequest('Bad Request Costumized') )
 
         }
     }
 
-    private async put (req:express.Request, res:express.Response){
+    private async put (req:express.Request, res:express.Response,next:express.NextFunction){
         try{
             const idParam:number = +req.params.id
             const employee:Employee = req.body
             employee.id=idParam
-
             const result: Employee = await EmployeesService.put(employee)
+            if(!result) {
+                next(new NotFound(`id ${idParam} not found`) )
+            }
             res.json(result)
         }
         catch(err){
-            res.status(400).send(err.message)
+            next(new BadRequest('Bad Request Costumized') )
         }
 
     }
-    private async patch (req:express.Request, res:express.Response){
-        try{
-            const idParam:number = +req.params.id
+    private async patch (req:express.Request, res:express.Response,next:express.NextFunction){
+       try{
+            const id:number = +req.params.id
             const employee:Employee = req.body
-            employee.id=idParam
-
+            employee.id=id
             const result: Employee = await EmployeesService.patch(employee)
-            res.json(result)
+            if(!result) {
+                
+                next(new NotFound(`id ${id} not found`) )
+            }
+            else{
+
+                res.json(result)
+            }
         }
         catch(err){
-            res.status(400).send(err.message)
+            next(new BadRequest('Bad Request Costumized') )
         }
 
     }

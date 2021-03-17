@@ -88,16 +88,20 @@ var EmployeesService = /** @class */ (function () {
     };
     EmployeesService.prototype.put = function (employee) {
         return __awaiter(this, void 0, void 0, function () {
-            var employees, index;
+            var employees, employeesIndexValid, index;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, employees_repository_1.default.getAll()];
                     case 1:
                         employees = _a.sent();
+                        employeesIndexValid = employees.find(function (E) { return E.id === employee.id; });
+                        if (!!employeesIndexValid) return [3 /*break*/, 2];
+                        return [2 /*return*/, employeesIndexValid];
+                    case 2:
                         index = employees.findIndex(function (e) { return e.id === employee.id; });
                         employees[index] = employee;
                         return [4 /*yield*/, employees_repository_2.default.saveAll(employees)];
-                    case 2:
+                    case 3:
                         _a.sent();
                         return [2 /*return*/, employee];
                 }
@@ -113,13 +117,17 @@ var EmployeesService = /** @class */ (function () {
                     case 1:
                         employees = _a.sent();
                         employeeToFetch = employees.find(function (e) { return e.id === employee.id; });
+                        console.log(employeeToFetch);
+                        if (!!employeeToFetch) return [3 /*break*/, 2];
+                        return [2 /*return*/, employeeToFetch];
+                    case 2:
                         for (key in employee) {
                             if (key in employeeToFetch) {
                                 employeeToFetch[key] = employee[key];
                             }
                         }
                         return [4 /*yield*/, employees_repository_1.default.saveAll(employees)];
-                    case 2:
+                    case 3:
                         _a.sent();
                         return [2 /*return*/, employee];
                 }

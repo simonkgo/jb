@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployeesController = void 0;
 var express = require("express");
 var Employees_service_1 = require("./Employees-service");
+var error_middleware_1 = require("../middleware/error-middleware");
 var EmployeesController = /** @class */ (function () {
     function EmployeesController() {
         this.router = express.Router();
@@ -51,7 +52,7 @@ var EmployeesController = /** @class */ (function () {
         this.router.put('/employees/:id', this.put);
         this.router.patch('/employees/:id', this.patch);
     };
-    EmployeesController.prototype.all = function (req, res) {
+    EmployeesController.prototype.all = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var employees, err_1;
             return __generator(this, function (_a) {
@@ -65,14 +66,14 @@ var EmployeesController = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         err_1 = _a.sent();
-                        res.status(400).send(err_1.message);
+                        next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeesController.prototype.getOne = function (req, res) {
+    EmployeesController.prototype.getOne = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var id, employee, err_2;
             return __generator(this, function (_a) {
@@ -84,20 +85,20 @@ var EmployeesController = /** @class */ (function () {
                     case 1:
                         employee = _a.sent();
                         if (!employee) {
-                            res.status(404).send("id " + id + " not found");
+                            next(new error_middleware_1.NotFound("id " + id + " not found"));
                         }
                         res.json(employee);
                         return [3 /*break*/, 3];
                     case 2:
                         err_2 = _a.sent();
-                        res.status(400).send(err_2.message);
+                        next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeesController.prototype.post = function (req, res) {
+    EmployeesController.prototype.post = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var employee, err_3;
             return __generator(this, function (_a) {
@@ -111,14 +112,14 @@ var EmployeesController = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         err_3 = _a.sent();
-                        res.status(400).send(err_3.message);
+                        next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeesController.prototype.put = function (req, res) {
+    EmployeesController.prototype.put = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var idParam, employee, result, err_4;
             return __generator(this, function (_a) {
@@ -131,35 +132,43 @@ var EmployeesController = /** @class */ (function () {
                         return [4 /*yield*/, Employees_service_1.default.put(employee)];
                     case 1:
                         result = _a.sent();
+                        if (!result) {
+                            next(new error_middleware_1.NotFound("id " + idParam + " not found"));
+                        }
                         res.json(result);
                         return [3 /*break*/, 3];
                     case 2:
                         err_4 = _a.sent();
-                        res.status(400).send(err_4.message);
+                        next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    EmployeesController.prototype.patch = function (req, res) {
+    EmployeesController.prototype.patch = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var idParam, employee, result, err_5;
+            var id, employee, result, err_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        idParam = +req.params.id;
+                        id = +req.params.id;
                         employee = req.body;
-                        employee.id = idParam;
+                        employee.id = id;
                         return [4 /*yield*/, Employees_service_1.default.patch(employee)];
                     case 1:
                         result = _a.sent();
-                        res.json(result);
+                        if (!result) {
+                            next(new error_middleware_1.NotFound("id " + id + " not found"));
+                        }
+                        else {
+                            res.json(result);
+                        }
                         return [3 /*break*/, 3];
                     case 2:
                         err_5 = _a.sent();
-                        res.status(400).send(err_5.message);
+                        next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
