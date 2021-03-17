@@ -109,7 +109,6 @@ export class EmployeesController {
             const { firstName, lastName, title, country, city, birthDate } = req.body
             const employee: Employee = new Employee(firstName, lastName, title, country, city, birthDate)
             employee.id = id
-            console.log(employee)
             const errors = await validate(employee)
             if (errors.length) {
                 res.status(400).json(errors)

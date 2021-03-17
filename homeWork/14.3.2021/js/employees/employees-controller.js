@@ -201,7 +201,6 @@ var EmployeesController = /** @class */ (function () {
                         _a = req.body, firstName = _a.firstName, lastName = _a.lastName, title = _a.title, country = _a.country, city = _a.city, birthDate = _a.birthDate;
                         employee = new employee_1.Employee(firstName, lastName, title, country, city, birthDate);
                         employee.id = id;
-                        console.log(employee);
                         return [4 /*yield*/, class_validator_1.validate(employee)];
                     case 1:
                         errors = _b.sent();
