@@ -33,6 +33,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var products_controller_1 = require("./products/products-controller");
+var error_middleware_1 = require("./middleware/error-middleware");
 var MyGreateRestAPIServer = /** @class */ (function () {
     //הבנאי - ירוץ ראשון כאשר נאתחל את הקלאס הראשי של האפליקציה;
     //---;
@@ -50,6 +51,9 @@ var MyGreateRestAPIServer = /** @class */ (function () {
         //רישום הנתיבים של המוצרים לכתובת הבאה;
         this.app.use("/api/v1", new products_controller_1.ProductsController().router); // /api/v1/products
         //this.app.use("/api/v1", new MessagesController().router); // /api/v1/message
+        //רישום מידלוורים של שגיאות;
+        this.app.use(error_middleware_1.httpErrorMiddleware);
+        this.app.use(error_middleware_1.programmerErrorMiddleware);
         //פונקציה שתתחבר לפורט ותאפשר לקליינטים לפנות תוכנת שרת שאנחנו בונים;        
         this.app.listen(3000, function () { return console.log("listen on port 3000"); });
     };
