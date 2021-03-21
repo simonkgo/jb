@@ -15,7 +15,7 @@ class Service {
   }
   public async addEmployee(employee: Employee): Promise<Employee[]> {
     const employees: Employee[] = await Repo.getAll();
-    employee.id = employees.length + 1;
+    employee.id = employee.id ||  employees.length + 1;
     employees.push(employee);
     await Repo.saveAll(employees);
     return employees;

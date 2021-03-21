@@ -75,6 +75,26 @@ export class Controller {
     }
   }
 
+
+  // private async addEmployeeTest(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     const tempId: number = 1;
+  //     const employee: Employee = new Employee(tempId,req.body)
+
+  //     const errors = await validate(employee);
+  //     if (errors.length) {
+  //       res.status(400).json(errors);
+  //       return;
+  //     }
+
+  //     const employees: Employee[] = await Service.addEmployee(employee);
+  //     res.json(employees);
+  //   } catch (error) {
+  //     next(new BadRequest('server not found'));
+  //   }
+  // }
+
+
   private async putEmployee(req: Request, res: Response, next: NextFunction) {
     try {
       const id: number = +req.params.id;
