@@ -10,7 +10,7 @@ var Server = /** @class */ (function () {
         this.app = express();
         this.app.use(express.json());
         this.app.use("/api/v1", new products_controller_1.ProductsController().router);
-        this.app.listen(3000, function () { console.log("listening on port 3000 just checking"); });
+        this.app.listen(3005, function () { console.log("listening on port 3005 just checking"); });
     };
     ;
     return Server;
