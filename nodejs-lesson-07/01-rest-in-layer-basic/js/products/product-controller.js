@@ -37,14 +37,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductControler = void 0;
+var class_validator_1 = require("class-validator");
 var express = require("express");
+var product_1 = require("./product");
 var productServise_1 = require("./productServise");
+var eror_middleware_1 = require("../middleware/eror-middleware");
 var ProductControler = /** @class */ (function () {
     function ProductControler() {
         this.router = express.Router();
         this.activateRoute();
     }
     ProductControler.prototype.activateRoute = function () {
+        this.router.get('/products/auth', this.auth);
         this.router.get('/products', this.getAll);
         this.router.get('/products/:id', this.oneId);
         this.router.post('/products', this.post);
@@ -52,6 +56,19 @@ var ProductControler = /** @class */ (function () {
         this.router.patch('/products/:id', this.patch);
     };
     ;
+    ProductControler.prototype.auth = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                try {
+                    next(new eror_middleware_1.Forbidden('forbbiden'));
+                }
+                catch (error) {
+                    res.status(400);
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
     ProductControler.prototype.getAll = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var product, err_1;
@@ -76,7 +93,7 @@ var ProductControler = /** @class */ (function () {
         });
     };
     ;
-    ProductControler.prototype.oneId = function (req, res) {
+    ProductControler.prototype.oneId = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var id, OneProduct, err_2;
             return __generator(this, function (_a) {
@@ -88,7 +105,7 @@ var ProductControler = /** @class */ (function () {
                     case 1:
                         OneProduct = _a.sent();
                         if (!OneProduct) {
-                            res.status(404).send("This " + id + " id Is Not Exist");
+                            next(new eror_middleware_1.NotFound("This " + id + " id Is Not Exist"));
                         }
                         res.json(OneProduct);
                         return [3 /*break*/, 3];
@@ -106,21 +123,30 @@ var ProductControler = /** @class */ (function () {
     ;
     ProductControler.prototype.post = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var prodoct, err_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, name_1, price, stock, product, errors, resulte, err_3;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, productServise_1.default.saveAll(req.body)];
+                        _b.trys.push([0, 3, , 4]);
+                        _a = req.body, name_1 = _a.name, price = _a.price, stock = _a.stock;
+                        product = new product_1.Product(name_1, price, stock);
+                        return [4 /*yield*/, class_validator_1.validate(product)];
                     case 1:
-                        prodoct = _a.sent();
-                        res.status(201).json(prodoct);
-                        return [3 /*break*/, 3];
+                        errors = _b.sent();
+                        if (errors.length) {
+                            res.status(400).json(errors);
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, productServise_1.default.saveAll(product)];
                     case 2:
-                        err_3 = _a.sent();
-                        res.status(500).send(err_3.message);
-                        return [3 /*break*/, 3];
+                        resulte = _b.sent();
+                        res.status(201).json(resulte);
+                        return [3 /*break*/, 4];
                     case 3:
+                        err_3 = _b.sent();
+                        res.status(500).send(err_3.message);
+                        return [3 /*break*/, 4];
+                    case 4:
                         ;
                         return [2 /*return*/];
                 }

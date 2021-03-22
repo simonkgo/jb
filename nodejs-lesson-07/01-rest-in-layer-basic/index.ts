@@ -1,8 +1,8 @@
 
 import * as express from 'express';
 import { ProductControler } from './products/product-controller';
-import { EmployeeController } from './employees/employees-controller'
-import { erorMiddelware , serverDowmMiddelware} from './middelware/eror-middleware'
+import { httpErorMiddeleware } from './middleware/eror-middleware';
+
 export default class Server {
     public app:express.Application;
     private productcontroler:ProductControler;
@@ -15,8 +15,7 @@ export default class Server {
         this.app = express();
         this.app.use(express.json());
         this.app.use('/api/v1',new ProductControler().router);
-        this.app.use('/api/v1',new EmployeeController().router);
-        this.app.use(erorMiddelware);
+        this.app.use(httpErorMiddeleware)
         this.app.listen(3002,() => console.log('server is now listen in port 3002'));
 
     }
