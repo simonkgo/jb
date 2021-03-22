@@ -16,7 +16,7 @@ const main = () => {
 main();
 
 /*
-    ?Exersice;
+    Exersice 1;
     create new route /api/v1/my-project;
     when client will req that url - serve to the client the public folder;
     (same as we did but this time only for that route);
@@ -32,7 +32,7 @@ const classExercise1 = () => {
 };
 classExercise1();
 
-// Exersice Challenge;
+// Exersice Challenge 2;
 //     add new file my-name.html and add to it new tag h1 with your name;
 //     create new route route /api/v1/my-name;
 //     when client will req that url - serve to the client the file that you had created (my-index.html);
@@ -40,8 +40,8 @@ classExercise1();
 const classExercise2 = () => {
     const app = express();
     const publicFolderPath1 = path.join(__dirname, "./public/my-name.html");
-    app.use("/api/v1/my-name", express.static(publicFolderPath1));
+    app.use("/api/v1/my-name.html", express.static(publicFolderPath1));
 
-    app.listen(5000, () => console.log("3 -","http://localhost:5000/api/v1/my-name"));
+    app.listen(5000, () => console.log("3 -","http://localhost:5000"));
 };
 classExercise2();
