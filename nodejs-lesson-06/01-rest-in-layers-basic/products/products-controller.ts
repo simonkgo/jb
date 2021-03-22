@@ -60,8 +60,11 @@ export class ProductsController {
             const product: Product = new Product(name, price, stock);
 
             //הפעלה של פונקציה שמגיעה מתוך הסיפריה - שתחזיר הודעות ולידציה אם יהיו;
-            const errors = await validate(product);
+
+            const errors = await validate(product, {groups: ['post']});
             console.log(errors);
+
+
 
             if (errors.length) {
                 res.status(400).send(errors);

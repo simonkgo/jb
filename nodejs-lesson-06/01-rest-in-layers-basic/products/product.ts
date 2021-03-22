@@ -57,13 +57,22 @@
     4 להחזיר לקליינט הודעות ולידציה במידה ויש
  */
 
-import { IsNumber, IsString, Length, Min, Max} from "class-validator";
+import { IsNumber, IsString, Length, Min, Max, IsPositive } from "class-validator";
 
 export class Product {
+
+    @Min(0, {
+        groups: ['post'],
+    })
     id: number;
 
+    
+
+
+
+    
     @IsString()
-    @Length(2,10)
+    @Length(2, 10)
     name: string;
 
     @IsNumber()
