@@ -39,6 +39,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsController = void 0;
 var express = require("express");
 var products_service_1 = require("./products-service");
+var product_1 = require("./product");
+var class_validator_1 = require("class-validator");
 var ProductsController = /** @class */ (function () {
     function ProductsController() {
         this.router = express.Router();
@@ -116,28 +118,35 @@ var ProductsController = /** @class */ (function () {
     //---;
     ProductsController.prototype.post = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var product, err_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, name_1, price, stock, product, errors, result, err_3;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, products_service_1.default.post(req.body)];
+                        _b.trys.push([0, 3, , 4]);
+                        _a = req.body, name_1 = _a.name, price = _a.price, stock = _a.stock;
+                        product = new product_1.Product(name_1, price, stock);
+                        return [4 /*yield*/, class_validator_1.validate(product)];
                     case 1:
-                        product = _a.sent();
-                        res.status(201).json(product);
-                        return [3 /*break*/, 3];
+                        errors = _b.sent();
+                        console.log(errors);
+                        if (errors.length) {
+                            res.status(400).json(errors);
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, products_service_1.default.post(req.body)];
                     case 2:
-                        err_3 = _a.sent();
-                        res.status(400).send(err_3.message);
-                        return [3 /*break*/, 3];
+                        result = _b.sent();
+                        res.status(201).json(result);
+                        return [3 /*break*/, 4];
                     case 3:
-                        ;
-                        return [2 /*return*/];
+                        err_3 = _b.sent();
+                        res.status(400).send(err_3.message);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    ;
     //PUT /api/products/7 - full update on product with id=7:
     //---; 
     ProductsController.prototype.put = function (req, res) {

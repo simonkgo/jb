@@ -1,6 +1,8 @@
 import * as express from 'express';
 import ProductsService from "./products-service";
 import { Product } from './product';
+import { validate } from 'class-validator';
+import { read } from 'node:fs';
 
 export class ProductsController {
     //אובייקט מסוג ראוט של אספרס שיכיל את הנתיבים עבור הפרודוקס;
@@ -53,12 +55,24 @@ export class ProductsController {
     //---;
     private async post(req: express.Request, res: express.Response) {
         try {
-            const product: Product = await ProductsService.post(req.body);
-            res.status(201).json(product);
+          const { name, price, stock } = req.body;
+          const product: Product = new Product(name, price, stock);
+
+          const errors = await validate(product);
+          console.log(errors);
+
+          if(errors.length) {
+              res.status(400).json(errors);
+              return;
+          }
+    
+          const result: Product = await ProductsService.post(req.body);
+          res.status(201).json(result);
         } catch (err) {
-            res.status(400).send(err.message);
-        };
-    };
+          res.status(400).send(err.message);
+        }
+      }
+    
 
     //PUT /api/products/7 - full update on product with id=7:
     //---; 
