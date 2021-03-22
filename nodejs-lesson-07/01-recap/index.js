@@ -1,5 +1,5 @@
 /*
-    !---------------------- ?איך יוצרים ראוט  ----------------------!
+    !---------------------- איך יוצרים ראוט  ----------------------!
     app.get("/api/v1/products", (req, res, next) => {
        return products
     });
@@ -30,7 +30,6 @@
         res.json("");
     });
 
-
     *מתחת הנתיב 
     :נתיב
     app.get("/api/v1/products", (req, res, next) => {
@@ -42,21 +41,28 @@
         res.json("yey");        
     });
 
-
-
-    ! מספר הארגומנטים
+    !מספר הארגומנטים
     ?---------------------------------------------------------------
     * ארגומנטים 3
-     app.use((req, res, next) => {
+    בדרך כלל ישמש אותנו כמידלוור לבדוק ארגומנטים לעשות ולידציה
+    בדיקת הרשאות
+    והכנה של דברים שצריך לפני טיפול הבקשה על ידי הפונקציה שאחראית על הנתיב
+    app.use((req, res, next) => {
         console.log("Second Stop: middleware with 3 arguments");
         res.json("ok");
     });
 
+    * ארגומנטים 4
+    בדרך כלל ישמש אותנו כמידלוור לטיפול בשגיאות
+    כתיבת לוגים וכו
+    app.use((err, req, res, next) => {
+        console.log("Second Stop: middleware with 4 arguments");
+        res.json("ok");
+    });
  */
 
 
 const express = require("express");
-
 //הגדרת נתיב;
 //---;
 const routeRecap = () => {
@@ -117,8 +123,14 @@ const middlewareRecap3 = () => {
 
     app.get("/api/v1/products", (req, res, next) => {
         console.log("First Stop: route /api/v1/products");
-        next(); // מעבר למילדוור למטה במוגדר עם 3 ארגומנטים
-        next("Oppso..."); // מעבר למילדוור למטה במוגדר עם 4 ארגומנטים
+        //next(); // מעבר למילדוור למטה במוגדר עם 3 ארגומנטים
+        //next("Oppso..."); // מעבר למילדוור למטה במוגדר עם 4 ארגומנטים
+    });
+
+    //מידלוור עם 3 אגומנטים;
+    app.use((req, res, next) => {
+        console.log("Second Stop: middleware with 3 arguments");
+        res.json("ok");
     });
 
     //מידלוור עם 4 אגומנטים;
@@ -128,16 +140,11 @@ const middlewareRecap3 = () => {
         res.json("ok");
     });
 
-    //מידלוור עם 3 אגומנטים;
-    // app.use((req, res, next) => {
-    //     console.log("Second Stop: middleware with 3 arguments");
-    //     res.json("ok");
-    // });
-
     app.listen(3000, () => console.log("Listening..."));
 };
+//middlewareRecap3();
 
-const test = () => {
+const fiveminutesgame1 = () => {
     const app = express();
     //מידלוור עם 4 אגומנטים;
     app.use((err, req, res, next) => {
@@ -152,27 +159,32 @@ const test = () => {
 
     app.listen(3000, () => console.log("Listening..."));
 };
-test();
+//fiveminutesgame1();
 
+const fiveminutesgame2 = () => {
+    const app = express();
 
+    app.use((req, res, next) => {
+        console.log("First Stop: middleware with 4 arguments");
+        next();
+    });
 
+    app.get("/api/v1/products", (req, res, next) => {
+        console.log("Second Stop: middleware with 4 arguments");
+        res.json("yey");
+        next();
+    });
 
+    app.use((req, res, next) => {
+        console.log("First Stop: middleware with 4 arguments");
+        next();
+    });
 
+    app.listen(3000, () => console.log("Listening..."));
+};
+//fiveminutesgame2();
 
-
-
-
-
-
-
-
-
-
-
-
-//משחק 5 דקות;
-//---;
-const fivemingame = () => {
+const fiveminutesgame3 = () => {
     const app = express();
 
     app.use((req, res, next) => {
@@ -192,3 +204,4 @@ const fivemingame = () => {
 
     app.listen(3000, () => console.log("Listen on port 5000"));
 };
+//fiveminutesgame3();
