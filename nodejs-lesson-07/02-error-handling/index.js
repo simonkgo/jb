@@ -2,7 +2,7 @@ const fs = require("fs").promises;
 
 const getUser = async () => {
     try {
-        const data = await fs.readFile('./db.json','utf-8')
+        const data  = await fs.readFile('./db.json','utf-8')
         return data
     } catch (err) {
         throw arr
