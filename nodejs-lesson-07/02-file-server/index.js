@@ -13,7 +13,7 @@ const main = ()=>{
     // app.use(express.static(publicFolderPath));
 
 /*
-    ?Exersice;
+    ?Exercise;
     create new route /api/v1/my-project;
     when client will req that url - serve to the client the public folder;
     (same as we did but this time only for that route);
@@ -21,7 +21,7 @@ const main = ()=>{
     // app.use("/api/vi/products", express.static(publicFolderPath));
 
 /*
-?Exersice Challenge;
+?Exercise Challenge;
     add new file my-name.html and add to it new tag h1 with your name;
     create new route route /api/v1/my-name;
     when client will req that url - serve to the client the file that you had created (my-index.html);
