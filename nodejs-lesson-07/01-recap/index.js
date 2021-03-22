@@ -1,3 +1,49 @@
+/*
+    !---------------------- ?איך יוצרים ראוט  ----------------------!
+    app.get("/api/v1/products", (req, res, next) => {
+       return products
+    });
+    app.post("/api/v1/products", (req, res, next) => {
+        create product
+    });
+    !---------------------- מידלוורים ----------------------!
+    יש 2 סוגים של מידלוורים שאנחנו רושמים
+    - עם 3 ארגומנטים
+    - עם 4 ארגומנטים
+    ויש 2 מקומות שאנחנו שמים אותם
+    - מעל הנתיב
+    - מתחת לנתיב
+    !מיקום
+    ?---------------------------------------------------------------
+    *מעל הנתיב 
+    :מידלוור
+    app.use((req, res, next) => {
+        do somthing...
+        next();
+    });
+    :נתיב
+    app.get("/api/v1/products", (req, res, next) => {
+        res.json("");
+    });
+    *מתחת הנתיב 
+    :נתיב
+    app.get("/api/v1/products", (req, res, next) => {
+        next();
+    });
+    :מידלוור
+    app.use((req, res, next) => {
+        do somthing...
+        res.json("yey");        
+    });
+    ! מספר הארגומנטים
+    ?---------------------------------------------------------------
+    * ארגומנטים 3
+     app.use((req, res, next) => {
+        console.log("Second Stop: middleware with 3 arguments");
+        res.json("ok");
+    });
+ */
+
 const express = require("express");
 const routeRecap = () => {
     const app = express();
@@ -50,8 +96,8 @@ const middlewareRecap3 = () => {
 
     app.get("/api/v1/products", (req, res, next) => {
         console.log("First Stop: route /api/v1/products");
-        next() //מעבר למידלוור למטה שמוגדר עם 3 ארגומנטים
-        // next("Oppso..."); //מעבר למידלוור למטה שמוגדר עם 4 ארגומנטים
+        // next(); //מעבר למידלוור למטה שמוגדר עם 3 ארגומנטים
+        next("Oppso..."); //מעבר למידלוור למטה שמוגדר עם 4 ארגומנטים
     });
 
     // //מידלוור עם 3 ארומנטים;
