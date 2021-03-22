@@ -7,7 +7,7 @@ const main = () => {
    
    
 
-    app.use('/api/v1/my-name',express.static(publicFolderPath));
+    app.use('/api/v1/my-name.html',express.static(publicFolderPath ));
     app.listen(3000, () => console.log('Server Is Runing In Port 3000'))
 }
 
