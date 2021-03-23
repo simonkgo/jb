@@ -35,13 +35,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.EmployeesController = void 0;
 var express = require("express");
 var employee_1 = require("./employee");
 var Employees_service_1 = require("./Employees-service");
 var error_middleware_1 = require("../middleware/error-middleware");
-var delete_middleware_1 = require("../middleware/delete-middleware");
 var class_validator_1 = require("class-validator");
 var EmployeesController = /** @class */ (function () {
     function EmployeesController() {
@@ -54,7 +53,7 @@ var EmployeesController = /** @class */ (function () {
         this.router.post('/employees', this.post);
         this.router.put('/employees/:id', this.put);
         this.router.patch('/employees/:id', this.patch);
-        this.router.delete('/employees/:id', this.delete);
+        this.router["delete"]('/employees/:id', this["delete"]);
     };
     EmployeesController.prototype.all = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
@@ -63,7 +62,7 @@ var EmployeesController = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, Employees_service_1.default.all()];
+                        return [4 /*yield*/, Employees_service_1["default"].all()];
                     case 1:
                         employees = _a.sent();
                         res.json(employees);
@@ -85,7 +84,7 @@ var EmployeesController = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         id = +req.params.id;
-                        return [4 /*yield*/, Employees_service_1.default.getOne(id)];
+                        return [4 /*yield*/, Employees_service_1["default"].getOne(id)];
                     case 1:
                         employee = _a.sent();
                         if (!employee) {
@@ -117,7 +116,7 @@ var EmployeesController = /** @class */ (function () {
                         if (errors.length) {
                             next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         }
-                        return [4 /*yield*/, Employees_service_1.default.post(req.body)];
+                        return [4 /*yield*/, Employees_service_1["default"].post(req.body)];
                     case 2:
                         employee = _b.sent();
                         res.status(201).json(employee);
@@ -149,7 +148,7 @@ var EmployeesController = /** @class */ (function () {
                         idParam = +req.params.id;
                         employee = req.body;
                         employee.id = idParam;
-                        return [4 /*yield*/, Employees_service_1.default.put(employee)];
+                        return [4 /*yield*/, Employees_service_1["default"].put(employee)];
                     case 2:
                         result = _b.sent();
                         if (!result) {
@@ -184,7 +183,7 @@ var EmployeesController = /** @class */ (function () {
                         idp = +req.params.id;
                         employee = req.body;
                         employee.id = idp;
-                        return [4 /*yield*/, Employees_service_1.default.patch(employee)];
+                        return [4 /*yield*/, Employees_service_1["default"].patch(employee)];
                     case 2:
                         result = _b.sent();
                         if (!result) {
@@ -203,34 +202,11 @@ var EmployeesController = /** @class */ (function () {
             });
         });
     };
-    EmployeesController.prototype.delete = function (req, res, next) {
+    EmployeesController.prototype["delete"] = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, employee, employeesUpdated, err_6;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 3, , 4]);
-                        id = +req.params.id;
-                        return [4 /*yield*/, Employees_service_1.default.getOne(id)];
-                    case 1:
-                        employee = _a.sent();
-                        if (!employee) {
-                            next(new error_middleware_1.NotFound("id " + id + " not found"));
-                        }
-                        return [4 /*yield*/, Employees_service_1.default.delete(id)
-                            // res.json(employeesUpdated)
-                        ];
-                    case 2:
-                        employeesUpdated = _a.sent();
-                        // res.json(employeesUpdated)
-                        next(new delete_middleware_1.Deleted("id " + id + " is deleted"));
-                        return [3 /*break*/, 4];
-                    case 3:
-                        err_6 = _a.sent();
-                        next(new error_middleware_1.BadRequest('Bad Request Costumized'));
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
+                console.log('trying to delete');
+                return [2 /*return*/];
             });
         });
     };

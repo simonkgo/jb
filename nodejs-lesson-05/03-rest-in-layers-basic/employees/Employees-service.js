@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var employees_repository_1 = require("./employees-repository");
 var employees_repository_2 = require("./employees-repository");
 var EmployeesService = /** @class */ (function () {
@@ -46,7 +46,7 @@ var EmployeesService = /** @class */ (function () {
             var employees;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, employees_repository_2.default.getAll()];
+                    case 0: return [4 /*yield*/, employees_repository_2["default"].getAll()];
                     case 1:
                         employees = _a.sent();
                         return [2 /*return*/, employees];
@@ -59,7 +59,7 @@ var EmployeesService = /** @class */ (function () {
             var employees, employee;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, employees_repository_2.default.getAll()];
+                    case 0: return [4 /*yield*/, employees_repository_2["default"].getAll()];
                     case 1:
                         employees = _a.sent();
                         employee = employees.find(function (E) { return E.id === id; });
@@ -73,12 +73,12 @@ var EmployeesService = /** @class */ (function () {
             var employees;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, employees_repository_2.default.getAll()];
+                    case 0: return [4 /*yield*/, employees_repository_2["default"].getAll()];
                     case 1:
                         employees = _a.sent();
                         employee.id = employees[employees.length - 1].id + 1;
                         employees.push(employee);
-                        return [4 /*yield*/, employees_repository_2.default.saveAll(employees)];
+                        return [4 /*yield*/, employees_repository_2["default"].saveAll(employees)];
                     case 2:
                         _a.sent();
                         return [2 /*return*/, employee];
@@ -91,7 +91,7 @@ var EmployeesService = /** @class */ (function () {
             var employees, employeesIndexValid, index;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, employees_repository_1.default.getAll()];
+                    case 0: return [4 /*yield*/, employees_repository_1["default"].getAll()];
                     case 1:
                         employees = _a.sent();
                         employeesIndexValid = employees.find(function (E) { return E.id === employee.id; });
@@ -100,7 +100,7 @@ var EmployeesService = /** @class */ (function () {
                     case 2:
                         index = employees.findIndex(function (e) { return e.id === employee.id; });
                         employees[index] = employee;
-                        return [4 /*yield*/, employees_repository_2.default.saveAll(employees)];
+                        return [4 /*yield*/, employees_repository_2["default"].saveAll(employees)];
                     case 3:
                         _a.sent();
                         return [2 /*return*/, employee];
@@ -113,7 +113,7 @@ var EmployeesService = /** @class */ (function () {
             var employees, employeeToFetch, key;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, employees_repository_1.default.getAll()];
+                    case 0: return [4 /*yield*/, employees_repository_1["default"].getAll()];
                     case 1:
                         employees = _a.sent();
                         employeeToFetch = employees.find(function (e) { return e.id === employee.id; });
@@ -126,7 +126,7 @@ var EmployeesService = /** @class */ (function () {
                                 employeeToFetch[key] = employee[key];
                             }
                         }
-                        return [4 /*yield*/, employees_repository_1.default.saveAll(employees)];
+                        return [4 /*yield*/, employees_repository_1["default"].saveAll(employees)];
                     case 3:
                         _a.sent();
                         return [2 /*return*/, employee];
@@ -134,24 +134,6 @@ var EmployeesService = /** @class */ (function () {
             });
         });
     };
-    EmployeesService.prototype.delete = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var employees, index;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, employees_repository_2.default.getAll()];
-                    case 1:
-                        employees = _a.sent();
-                        index = employees.findIndex(function (e) { return e.id === id; });
-                        employees.splice(index, 1);
-                        return [4 /*yield*/, employees_repository_1.default.saveAll(employees)];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/, employees];
-                }
-            });
-        });
-    };
     return EmployeesService;
 }());
-exports.default = new EmployeesService();
+exports["default"] = new EmployeesService();

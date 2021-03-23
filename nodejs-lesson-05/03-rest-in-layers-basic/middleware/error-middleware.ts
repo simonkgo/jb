@@ -24,6 +24,9 @@ export class BadRequest extends HttpError{
     }
 }
 
+
+
+
 export const httpErrorMiddleware = (err:any, req:Request,res:Response,next:NextFunction)=>{
     if(err instanceof HttpError){
         const status=err.status|| 400

@@ -62,6 +62,13 @@ class EmployeesService {
        
                 
     }
+    public async delete (id: number){
+        const employees:Employee[] = await EmployeesRepository.getAll()
+        const index = employees.findIndex(e => e.id === id)
+        employees.splice(index,1)
+        await employeesRepository.saveAll(employees)
+        return employees
+    }
 
 }
 

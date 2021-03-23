@@ -2,6 +2,7 @@ import * as express from 'express';
 import {Employee} from './employee';
 import EmployeesService from "./Employees-service";
 import{NotFound, BadRequest} from '../middleware/error-middleware'
+import {Deleted} from '../middleware/delete-middleware'
 import { validate } from 'class-validator';
 
 
@@ -20,6 +21,7 @@ export class EmployeesController {
         this.router.post('/employees', this.post)
         this.router.put('/employees/:id', this.put)
         this.router.patch('/employees/:id', this.patch)
+        this.router.delete('/employees/:id', this.delete)
         
     }
 
@@ -118,5 +120,23 @@ export class EmployeesController {
         }
 
     }
+
+    private async delete (req:express.Request,res:express.Response,next:express.NextFunction){
+        try{
+            const id:number = +req.params.id;
+            const employee = await EmployeesService.getOne(id)
+            if(!employee) {
+                next(new NotFound(`id ${id} not found`) )
+            }
+            const employeesUpdated= await EmployeesService.delete(id)
+            // res.json(employeesUpdated)
+            next(new Deleted(`id ${id} is deleted`))
+        
+        }
+        catch(err) {
+            next(new BadRequest('Bad Request Costumized') )
+        }
+    }
+
 
 }
