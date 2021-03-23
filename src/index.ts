@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import EmployeeRouter from "./employee-router";
 import { httpMiddelwareError } from "./error-middelware/error-middelware";
+import saveRequestInformation from "./middelware/employee-request-save"
 class Server {
   private static app: express.Application;
 
@@ -15,6 +16,7 @@ class Server {
   private static buildServer() {
     this.app = express();
     this.app.use(express.json());
+    this.app.use(saveRequestInformation)
     this.app.use(EmployeeRouter.employeeRouting(), httpMiddelwareError);
     this.app.use((req: Request, res: Response) =>
       res.status(404).json({ errors: "page not found" })
