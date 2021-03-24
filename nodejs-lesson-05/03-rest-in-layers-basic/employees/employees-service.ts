@@ -5,6 +5,10 @@ import EmployeesRepository from './employees-repository';
 class EmployeesService {
     constructor(){}
 
+    public async writeLog(details){
+        await employeesRepository.writeLog(details)
+    }
+
     public async all() : Promise<Employee[]> {
         const employees:Employee[] = await EmployeesRepository.getAll()
         return employees

@@ -16,6 +16,7 @@ export class EmployeesController {
     }
 
     private activeEmployeesControllerRoutes(){
+        this.router.use('/employees',this.date)
         this.router.get('/employees', this.all)
         this.router.get('/employees/:id', this.getOne)
         this.router.post('/employees', this.post)
@@ -23,6 +24,21 @@ export class EmployeesController {
         this.router.patch('/employees/:id', this.patch)
         this.router.delete('/employees/:id', this.delete)
         
+    }
+
+    private async date (req:express.Request, res:express.Response,next:express.NextFunction){
+        try {
+            const details = {
+                date: new Date(),
+                method: req.method,
+                path: `/employees${req.path}`
+            }
+            await EmployeesService.writeLog(details)        
+            next()
+        }
+        catch (err){
+            next(new BadRequest('Bad Request Costumized') )
+        }
     }
 
     private async all (req:express.Request, res:express.Response,next:express.NextFunction){

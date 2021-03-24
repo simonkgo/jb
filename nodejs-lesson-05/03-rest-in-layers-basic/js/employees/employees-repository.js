@@ -44,9 +44,31 @@ var EmployeesRepository = /** @class */ (function () {
         this.writeFile = util.promisify(fs.writeFile);
     }
     ;
-    EmployeesRepository.prototype.getAll = function () {
+    EmployeesRepository.prototype.writeLog = function (details) {
         return __awaiter(this, void 0, void 0, function () {
             var result, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, this.writeFile('./database/reqLog.json', JSON.stringify(details))];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.readFile('./database/reqLog.json', 'utf-8')];
+                    case 2:
+                        result = _a.sent();
+                        return [2 /*return*/, console.log(result)];
+                    case 3:
+                        err_1 = _a.sent();
+                        throw err_1;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    EmployeesRepository.prototype.getAll = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var result, err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -56,8 +78,8 @@ var EmployeesRepository = /** @class */ (function () {
                         result = _a.sent();
                         return [2 /*return*/, JSON.parse(result)];
                     case 2:
-                        err_1 = _a.sent();
-                        throw err_1;
+                        err_2 = _a.sent();
+                        throw err_2;
                     case 3: return [2 /*return*/];
                 }
             });
@@ -65,7 +87,7 @@ var EmployeesRepository = /** @class */ (function () {
     };
     EmployeesRepository.prototype.saveAll = function (Employees) {
         return __awaiter(this, void 0, void 0, function () {
-            var err_2;
+            var err_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -73,8 +95,8 @@ var EmployeesRepository = /** @class */ (function () {
                         return [4 /*yield*/, this.writeFile('./database/employees.json', JSON.stringify(Employees))];
                     case 1: return [2 /*return*/, _a.sent()];
                     case 2:
-                        err_2 = _a.sent();
-                        throw err_2;
+                        err_3 = _a.sent();
+                        throw err_3;
                     case 3: return [2 /*return*/];
                 }
             });

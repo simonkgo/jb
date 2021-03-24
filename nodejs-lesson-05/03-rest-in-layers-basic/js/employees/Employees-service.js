@@ -41,6 +41,18 @@ var employees_repository_2 = require("./employees-repository");
 var EmployeesService = /** @class */ (function () {
     function EmployeesService() {
     }
+    EmployeesService.prototype.writeLog = function (details) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, employees_repository_1.default.writeLog(details)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     EmployeesService.prototype.all = function () {
         return __awaiter(this, void 0, void 0, function () {
             var employees;

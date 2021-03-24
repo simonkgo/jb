@@ -49,6 +49,7 @@ var EmployeesController = /** @class */ (function () {
         this.activeEmployeesControllerRoutes();
     }
     EmployeesController.prototype.activeEmployeesControllerRoutes = function () {
+        this.router.use('/employees', this.date);
         this.router.get('/employees', this.all);
         this.router.get('/employees/:id', this.getOne);
         this.router.post('/employees', this.post);
@@ -56,17 +57,22 @@ var EmployeesController = /** @class */ (function () {
         this.router.patch('/employees/:id', this.patch);
         this.router.delete('/employees/:id', this.delete);
     };
-    EmployeesController.prototype.all = function (req, res, next) {
+    EmployeesController.prototype.date = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var employees, err_1;
+            var details, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, Employees_service_1.default.all()];
+                        details = {
+                            date: new Date(),
+                            method: req.method,
+                            path: "/employees" + req.path
+                        };
+                        return [4 /*yield*/, Employees_service_1.default.writeLog(details)];
                     case 1:
-                        employees = _a.sent();
-                        res.json(employees);
+                        _a.sent();
+                        next();
                         return [3 /*break*/, 3];
                     case 2:
                         err_1 = _a.sent();
@@ -77,9 +83,30 @@ var EmployeesController = /** @class */ (function () {
             });
         });
     };
+    EmployeesController.prototype.all = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            var employees, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, Employees_service_1.default.all()];
+                    case 1:
+                        employees = _a.sent();
+                        res.json(employees);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_2 = _a.sent();
+                        next(new error_middleware_1.BadRequest('Bad Request Costumized'));
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     EmployeesController.prototype.getOne = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, employee, err_2;
+            var id, employee, err_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -94,7 +121,7 @@ var EmployeesController = /** @class */ (function () {
                         res.json(employee);
                         return [3 /*break*/, 3];
                     case 2:
-                        err_2 = _a.sent();
+                        err_3 = _a.sent();
                         next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -104,7 +131,7 @@ var EmployeesController = /** @class */ (function () {
     };
     EmployeesController.prototype.post = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, id, firstName, lastName, title, country, city, birthDate, newEmployee, errors, employee, err_3;
+            var _a, id, firstName, lastName, title, country, city, birthDate, newEmployee, errors, employee, err_4;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -123,7 +150,7 @@ var EmployeesController = /** @class */ (function () {
                         res.status(201).json(employee);
                         return [3 /*break*/, 4];
                     case 3:
-                        err_3 = _b.sent();
+                        err_4 = _b.sent();
                         next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
@@ -133,7 +160,7 @@ var EmployeesController = /** @class */ (function () {
     };
     EmployeesController.prototype.put = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, id, firstName, lastName, title, country, city, birthDate, newEmployee, errors, idParam, employee, result, err_4;
+            var _a, id, firstName, lastName, title, country, city, birthDate, newEmployee, errors, idParam, employee, result, err_5;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -158,7 +185,7 @@ var EmployeesController = /** @class */ (function () {
                         res.json(result);
                         return [3 /*break*/, 4];
                     case 3:
-                        err_4 = _b.sent();
+                        err_5 = _b.sent();
                         next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
@@ -168,7 +195,7 @@ var EmployeesController = /** @class */ (function () {
     };
     EmployeesController.prototype.patch = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, id, firstName, lastName, title, country, city, birthDate, newEmployee, errors, idp, employee, result, err_5;
+            var _a, id, firstName, lastName, title, country, city, birthDate, newEmployee, errors, idp, employee, result, err_6;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -195,7 +222,7 @@ var EmployeesController = /** @class */ (function () {
                         }
                         return [3 /*break*/, 4];
                     case 3:
-                        err_5 = _b.sent();
+                        err_6 = _b.sent();
                         next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
@@ -205,7 +232,7 @@ var EmployeesController = /** @class */ (function () {
     };
     EmployeesController.prototype.delete = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, employee, employeesUpdated, err_6;
+            var id, employee, employeesUpdated, err_7;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -226,7 +253,7 @@ var EmployeesController = /** @class */ (function () {
                         next(new delete_middleware_1.Deleted("id " + id + " is deleted"));
                         return [3 /*break*/, 4];
                     case 3:
-                        err_6 = _a.sent();
+                        err_7 = _a.sent();
                         next(new error_middleware_1.BadRequest('Bad Request Costumized'));
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
