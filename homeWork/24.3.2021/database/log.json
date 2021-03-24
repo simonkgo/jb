@@ -1,0 +1,12 @@
+[
+    {
+        "method": "GET",
+        "path": "/employees",
+        "date": "2021-03-24T19:50:23.714Z"
+    },
+    {
+        "method": "DELETE",
+        "path": "/employees/:id",
+        "date": "2021-03-24T19:50:36.743Z"
+    }
+]

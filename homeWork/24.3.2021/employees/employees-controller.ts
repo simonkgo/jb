@@ -58,6 +58,7 @@ export class EmployeesController {
         const log = {
             method: req.method,
             path: req.route.path,
+            date: new Date()
         }
         await EmployeesService.saveToLog(log)
     }
