@@ -1,6 +1,8 @@
 import * as express from 'express'
 import Employee from './employee'
 import EmployeesService from './employees-service'
+import { validate } from 'class-validator';
+
 
 
 
@@ -19,6 +21,7 @@ export class EmployeesController {
 
     private activateEmployeesControllerRoutes() {
         this.router.get("/employees", this.getAll)
+        this.router.post("/employees", this.postNewEmployee)
         this.router.delete("/employees/:id", this.delEmployee)
         this.router.use(this.DelMiddleware)
         this.router.use(this.logMiddleware)
@@ -31,6 +34,23 @@ export class EmployeesController {
                 res.status(404)
             }
             res.json(employees)
+            next()
+        } catch (err) {
+            throw err
+        }
+    }
+
+    private async postNewEmployee(req: express.Request, res: express.Response, next: express.NextFunction) {
+        try {
+            const { firstName, lastName, title, country, city, birthDate, imageName } = req.body
+            const employee: Employee = new Employee(firstName, lastName, title, country, city, birthDate, imageName)
+            const errors = await validate(employee)
+            if (errors.length) {
+                res.status(400).json(errors)
+                return
+            }
+            const result: Employee = await EmployeesService.post(req.body)
+            res.status(201).json(result)
             next()
         } catch (err) {
             throw err
@@ -53,8 +73,6 @@ export class EmployeesController {
     }
 
     private async logMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
-        console.log(req.method)
-        console.log(req.route.path)
         const log = {
             method: req.method,
             path: req.route.path,

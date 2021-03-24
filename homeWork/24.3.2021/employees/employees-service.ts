@@ -9,7 +9,13 @@ class EmployeesService {
         return employees
 
     }
-
+    public async post(employee: Employee): Promise<Employee> {
+        const employees: Employee[] = await EmployeesRepository.getAll()
+        employee.id = employees[employees.length - 1].id + 1
+        employees.push(employee)
+        await EmployeesRepository.saveAll(employees)
+        return employee
+    }
     public async delEmployee(id: number): Promise<number> {
         const result: Employee[] = await EmployeesRepository.getAll()
         const indexOfEmployeeToDelete = result.findIndex(emp => emp.id === id)!

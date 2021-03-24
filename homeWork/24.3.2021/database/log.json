@@ -8,5 +8,20 @@
         "method": "DELETE",
         "path": "/employees/:id",
         "date": "2021-03-24T19:50:36.743Z"
+    },
+    {
+        "method": "GET",
+        "path": "/employees",
+        "date": "2021-03-24T20:10:45.967Z"
+    },
+    {
+        "method": "POST",
+        "path": "/employees",
+        "date": "2021-03-24T20:12:09.815Z"
+    },
+    {
+        "method": "GET",
+        "path": "/employees",
+        "date": "2021-03-24T20:12:21.465Z"
     }
 ]
