@@ -63,13 +63,13 @@ export class EmployeesController {
             await EmployeesService.delEmployee(id)
             res.status(204).json("Deleted")
             next(id)
-            next()
         } catch (err) {
             throw err
         }
     }
     private DelMiddleware(err: express.Errback, req: express.Request, res: express.Response, next: express.NextFunction) {
         console.log(`User is going to delete employee ${err}`)
+        next()
     }
 
     private async logMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
