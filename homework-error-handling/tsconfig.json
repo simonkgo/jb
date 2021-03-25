@@ -4,6 +4,7 @@
       "outDir": "./js",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
+      "esModuleInterop": true,
       "strictNullChecks":true
   }
 }

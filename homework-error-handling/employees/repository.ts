@@ -16,6 +16,7 @@ class Repo {
         './database/employees.json',
         'utf-8'
       );
+      
       return JSON.parse(employees);
     } catch (error) {
       throw error;

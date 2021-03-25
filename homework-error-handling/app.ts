@@ -1,6 +1,8 @@
-import * as express from 'express';
+import express from 'express';
 import { Controller } from './employees/controller';
 import { httpErrorMiddleware } from './middleware/error-handling';
+import { printRequestInfo} from './middleware/additional-middleware';
+
 
 export default class Server {
   public app: express.Application;
@@ -12,6 +14,7 @@ export default class Server {
   activate() {
     this.app = express();
     this.app.use(express.json());
+    this.app.use(printRequestInfo);
     this.app.use(httpErrorMiddleware);
     this.app.listen(3000, () => {
       console.log('Listen on port 3000');
