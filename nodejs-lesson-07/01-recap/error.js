@@ -1,3 +1,15 @@
+/*
+    Error - אובייקט שגיאה גלובלי
+    ?איך מאתחלים
+    const myError = new Error("Ooopsi");
+    ?מה מקבלים
+    myError.name     - שם השגיאה;
+    myError.stack    - מידע מפרוט יותר על השגיאה;
+    myError.message  - הודעה השגיאה במקרה הזה ״אופסי״;
+    name/message - בדרך כלל מה שמחזירים ללקוח זה אם ה;
+    stack - לשמור לוגים ולמחקר מאוחר יותר משתמשים ב;
+ */
+
 // const main = () => {
 //     const myError = new Error("Opps")
 //     console.log("1 - Error Name:", myError.name);
