@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h1 {
+        color: crimson;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Doc Upload App</h1>
+    <form
+      action="http://localhost:3000/upload-doc"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="doc_file" accept="docx/*" />
+      <button>Upload</button>
+    </form>
+  </body>
+</html>
