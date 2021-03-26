@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>My Best Image Upload Ever</h1>
+    <!-- enctype="multipart/form-data" tells the form to send the selected files -->
+    <!-- 
+             type="file, tell to browser how to deal with it;
+             name="myImage" is the file name server will see;
+             accept="image/* tell to the form what kind of file to accept;
+         -->
+    <form action="http://localhost:3000/upload-image" method="POST" enctype="multipart/form-data">
+        <input type="file" name="myImage" accept="image/*">
+        <button>Send</button>
+    </form>
+
+    <h2>My Image</h2>
+    <img src="http://localhost:3000/images/5ee0abf0-770f-41e9-b58e-b0d50ab6f1fe.jpeg">
+
+</body>
+
+</html>

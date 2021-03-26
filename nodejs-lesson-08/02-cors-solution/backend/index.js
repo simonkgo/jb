@@ -42,10 +42,9 @@
     ?if my client in www.myGreatWebite.com and i send ajax request to www.someOtherGreateWebsite.com;
  */
 
+const cors = require("cors");
 const express = require("express");
 const products = [{ "id": 1, "name": "Moishe Ufnik" }, { "id": 2, "name": "Kipi Ben Kipod" }];
-
-const cors = require("cors");
 
 const main = () => {
     const app = express();
@@ -54,7 +53,22 @@ const main = () => {
     //---;
     app.use(cors());
 
-    app.get("/api/v1/users", (req, res) => res.json(products));
+    //Configure CORS Policies - מדיניות;
+    const corsOptions = {
+        origin: ["http://127.0.0.1:5501","http://someotherwebsite.com"]
+    };
+    //app.use(cors(corsOptions));
+
+    //Enable CORS single route;
+    //---;
+    let corsOptionsForSingeRoute = {
+        origin: "http://127.0.0.1:5509"
+    };
+    app.get("/api/v1/users", cors(corsOptionsForSingeRoute),(req, res) => {
+        res.json(products);
+    });
+
+    //app.get("/api/v1/users", (req, res) => res.json(products));
     app.listen(3000, () => console.log("Listing..."));
 };
 main();
