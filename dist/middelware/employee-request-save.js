@@ -52,7 +52,7 @@ var saveRequestInformation = function (req, res, next) { return __awaiter(void 0
                     path: req.path,
                     date: new Date()
                 };
-                return [4 /*yield*/, promises_1.default.appendFile(url, JSON.stringify(requestDetail))];
+                return [4 /*yield*/, promises_1.default.appendFile(url, JSON.stringify(requestDetail) + "\n")];
             case 1:
                 _a.sent();
                 next();

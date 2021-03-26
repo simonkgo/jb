@@ -10,7 +10,7 @@ const saveRequestInformation = async (req:Request,res:Response,next:NextFunction
         path:req.path,
         date:new Date()
     }
-    await fs.appendFile(url,JSON.stringify(requestDetail))
+    await fs.appendFile(url,JSON.stringify(requestDetail)+"\n")
     next()
 }
 

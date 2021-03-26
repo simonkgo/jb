@@ -57,7 +57,6 @@ var EmployeeRepository = /** @class */ (function () {
                         return [4 /*yield*/, readFile("./src/database/employees.json", "utf-8")];
                     case 2:
                         result = _a.sent();
-                        console.log(result);
                         return [2 /*return*/, JSON.parse(result)];
                     case 3:
                         e_1 = _a.sent();

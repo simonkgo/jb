@@ -8,7 +8,7 @@ export default class EmployeeRepository {
     const readFile = util.promisify(fs.readFile);
    try {
       const result = await readFile("./src/database/employees.json", "utf-8");
-      console.log(result)
+
       return JSON.parse(result);
 
     } catch (e) {
