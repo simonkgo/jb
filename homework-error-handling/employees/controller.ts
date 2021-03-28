@@ -1,10 +1,12 @@
-import * as express from 'express';
+import express from 'express';
+import path from 'path';
 import Service from './service';
 import { Request, Response, NextFunction } from 'express';
 import { Employee } from './employee';
 import { validate } from 'class-validator';
 import { NotFound, BadRequest } from '../middleware/error-handling';
-import { deleteMessage} from '../middleware/additional-middleware';
+import { deleteMessage } from '../middleware/additional-middleware';
+import { uploadImage } from '../middleware/files-upload';
 
 export class Controller {
   private _router: express.Router;
@@ -15,6 +17,9 @@ export class Controller {
   }
 
   private activateRouters() {
+    // this._router.get('/file-upload', this.fileUpload);
+    this._router.post('/image-upload', uploadImage);
+
     this._router.get('/', this.getAll);
     this._router.get('/:id', this.getById);
     this._router.post('/', this.addEmployee);
@@ -27,7 +32,17 @@ export class Controller {
     return this._router;
   }
 
-  private async getAll(req: Request, res: Response, next:NextFunction) {
+  // private fileUpload(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     const app = express();
+  //     const fileUploadPage = path.join(__dirname, '../public/');
+  //     app.use(express.static(fileUploadPage));
+  //   } catch (error) {
+  //     res.status(400).send(error.message);
+  //   }
+  // }
+
+  private async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const employees: Employee[] = await Service.getAll();
       res.json(employees);
@@ -40,7 +55,7 @@ export class Controller {
     try {
       const id = +req.params.id;
       const employee: Employee = await Service.getById(+id);
-      
+
       if (!employee) {
         next(new NotFound(`id ${id} not found`));
       }
@@ -76,7 +91,6 @@ export class Controller {
       next(new BadRequest('server not found'));
     }
   }
-
 
   private async putEmployee(req: Request, res: Response, next: NextFunction) {
     try {

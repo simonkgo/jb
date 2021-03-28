@@ -1,8 +1,8 @@
 import express from 'express';
+import fileUpload from "express-fileupload"
 import { Controller } from './employees/controller';
 import { httpErrorMiddleware } from './middleware/error-handling';
-import { printRequestInfo} from './middleware/additional-middleware';
-
+import { printRequestInfo } from './middleware/additional-middleware';
 
 export default class Server {
   public app: express.Application;
@@ -15,7 +15,9 @@ export default class Server {
     this.app = express();
     this.app.use(express.json());
     this.app.use(printRequestInfo);
+    this.app.use(fileUpload());
     this.app.use(httpErrorMiddleware);
+
     this.app.listen(3000, () => {
       console.log('Listen on port 3000');
     });
