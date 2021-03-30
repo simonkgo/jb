@@ -4,6 +4,6 @@
         "outDir": "js",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "strictNullChecks":true
+        "strictNullChecks":true,
     }
 }

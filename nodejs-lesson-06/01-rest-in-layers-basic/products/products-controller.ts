@@ -2,7 +2,11 @@ import * as express from 'express';
 import ProductsService from "./products-service";
 import { Product } from './product';
 import { validate } from 'class-validator';
+<<<<<<< HEAD
 import { read } from 'node:fs';
+=======
+import { NotFound, Forbiden } from '../middleware/error-middleware';
+>>>>>>> 2c179335f925f3d8956b3ebcbe67043e21656fbc
 
 export class ProductsController {
     //אובייקט מסוג ראוט של אספרס שיכיל את הנתיבים עבור הפרודוקס;
@@ -11,12 +15,12 @@ export class ProductsController {
 
     constructor() {
         this.router = express.Router();
-        this.activateProductsControllerRoutes();
+        this.routes();
     };
 
     //פונקציה שמאתחלת את אובייקט הראוטר של אקספרס ומצרפת פונקציה שתטפל בבקשה עבור כל נתיב;
     //---;
-    private activateProductsControllerRoutes() {
+    private routes() {
         this.router.get("/products", this.all);
         this.router.get("/products/:id", this.getOne);
         this.router.post("/products", this.post);
@@ -26,23 +30,24 @@ export class ProductsController {
 
     //GET /api/products - ונקציה שתחזיר את כל המוצרים;
     //---;
-    private async all(req: express.Request, res: express.Response) {
+    private async all(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
-            const products = await ProductsService.all();
+            const products: any = await ProductsService.all();
             res.json(products);
         } catch (err) {
-            res.status(400).send(err.message);
+            next(err);
         };
     };
 
     //GET /api/products/7 - get one product with id=7:
     //---; 
-    private async getOne(req: express.Request, res: express.Response) {
+    private async getOne(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
             const id: number = +req.params.id;
             const product = await ProductsService.getOne(id);
             if (!product) {
-                res.status(404).send(`id ${id} not found`);
+                next(new NotFound(`id ${id} not found`));
+                // res.status(404).send(`id ${id} not found`);
             };
 
             res.json(product);
@@ -55,6 +60,7 @@ export class ProductsController {
     //---;
     private async post(req: express.Request, res: express.Response) {
         try {
+<<<<<<< HEAD
           const { name, price, stock } = req.body;
           const product: Product = new Product(name, price, stock);
 
@@ -68,6 +74,25 @@ export class ProductsController {
     
           const result: Product = await ProductsService.post(req.body);
           res.status(201).json(result);
+=======
+            const { name, price, stock } = req.body;
+            const product: Product = new Product(name, price, stock);
+
+            //הפעלה של פונקציה שמגיעה מתוך הסיפריה - שתחזיר הודעות ולידציה אם יהיו;
+
+            const errors = await validate(product, {groups: ['shmuelTheKing']});
+            console.log(errors);
+
+
+
+            if (errors.length) {
+                res.status(400).send(errors);
+                return;
+            };
+
+            const result: Product = await ProductsService.post(req.body);
+            res.status(201).json(result);
+>>>>>>> 2c179335f925f3d8956b3ebcbe67043e21656fbc
         } catch (err) {
           res.status(400).send(err.message);
         }
@@ -93,11 +118,14 @@ export class ProductsController {
     //---; 
     private async patch(req: express.Request, res: express.Response) {
         try {
-            const idParam: number = +req.params.id;
-            const product: Product = req.body;
-            product.id = idParam;
+            const { name, price, stock } = req.body;
+            const product =  new Product(name, price, stock)
 
-            const result: Product = await ProductsService.patch(product);
+            const errors = await validate(product, {groups: ['shmuelTheKing']});
+            console.log(errors);
+
+
+            const result: Product = await ProductsService.patch(product,);
             res.json(result);
         } catch (err) {
             res.status(400).send(err.message);

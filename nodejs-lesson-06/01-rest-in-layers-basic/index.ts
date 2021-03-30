@@ -32,6 +32,7 @@
 
 import * as express from 'express';
 import { ProductsController } from './products/products-controller';
+import { httpErrorMiddleware , programmerErrorMiddleware} from "./middleware/error-middleware";
 
 export default class MyGreateRestAPIServer {
     // הגדרה של אובייקט אקספרס;
@@ -61,6 +62,10 @@ export default class MyGreateRestAPIServer {
         this.app.use("/api/v1", new ProductsController().router); // /api/v1/products
         //this.app.use("/api/v1", new MessagesController().router); // /api/v1/message
 
+        //רישום מידלוורים של שגיאות;
+        this.app.use(httpErrorMiddleware);
+        this.app.use(programmerErrorMiddleware);
+        
         //פונקציה שתתחבר לפורט ותאפשר לקליינטים לפנות תוכנת שרת שאנחנו בונים;        
         this.app.listen(3000, () => console.log("listen on port 3000"));
     };

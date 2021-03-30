@@ -41,6 +41,10 @@ var express = require("express");
 var products_service_1 = require("./products-service");
 var product_1 = require("./product");
 var class_validator_1 = require("class-validator");
+<<<<<<< HEAD
+=======
+var error_middleware_1 = require("../middleware/error-middleware");
+>>>>>>> 2c179335f925f3d8956b3ebcbe67043e21656fbc
 var ProductsController = /** @class */ (function () {
     function ProductsController() {
         this.router = express.Router();
@@ -57,9 +61,31 @@ var ProductsController = /** @class */ (function () {
         this.router.patch("/products/:id", this.patch);
     };
     ;
+    ProductsController.prototype.auth = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                try {
+                    next(new error_middleware_1.Forbiden("go out"));
+                }
+                catch (err) {
+                    res.status(400).send(err.message);
+                }
+                ;
+                return [2 /*return*/];
+            });
+        });
+    };
+    ;
+    // private async auth(req: express.Request, res: express.Response, next: express.NextFunction) {
+    //     try {
+    //         next(new Forbidden("you are not allowed"));
+    //     } catch (err) {
+    //         res.status(400).send(err.message);
+    //     };
+    // };
     //GET /api/products - ונקציה שתחזיר את כל המוצרים;
     //---;
-    ProductsController.prototype.all = function (req, res) {
+    ProductsController.prototype.all = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var products, err_1;
             return __generator(this, function (_a) {
@@ -69,11 +95,12 @@ var ProductsController = /** @class */ (function () {
                         return [4 /*yield*/, products_service_1.default.all()];
                     case 1:
                         products = _a.sent();
+                        products.sayHi();
                         res.json(products);
                         return [3 /*break*/, 3];
                     case 2:
                         err_1 = _a.sent();
-                        res.status(400).send(err_1.message);
+                        next(err_1);
                         return [3 /*break*/, 3];
                     case 3:
                         ;
@@ -85,7 +112,7 @@ var ProductsController = /** @class */ (function () {
     ;
     //GET /api/products/7 - get one product with id=7:
     //---; 
-    ProductsController.prototype.getOne = function (req, res) {
+    ProductsController.prototype.getOne = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var id, product, err_2;
             return __generator(this, function (_a) {
@@ -97,7 +124,8 @@ var ProductsController = /** @class */ (function () {
                     case 1:
                         product = _a.sent();
                         if (!product) {
-                            res.status(404).send("id " + id + " not found");
+                            next(new error_middleware_1.NotFound("id " + id + " not found"));
+                            // res.status(404).send(`id ${id} not found`);
                         }
                         ;
                         res.json(product);
@@ -130,9 +158,16 @@ var ProductsController = /** @class */ (function () {
                         errors = _b.sent();
                         console.log(errors);
                         if (errors.length) {
+<<<<<<< HEAD
                             res.status(400).json(errors);
                             return [2 /*return*/];
                         }
+=======
+                            res.status(400).send(errors);
+                            return [2 /*return*/];
+                        }
+                        ;
+>>>>>>> 2c179335f925f3d8956b3ebcbe67043e21656fbc
                         return [4 /*yield*/, products_service_1.default.post(req.body)];
                     case 2:
                         result = _b.sent();
@@ -142,7 +177,13 @@ var ProductsController = /** @class */ (function () {
                         err_3 = _b.sent();
                         res.status(400).send(err_3.message);
                         return [3 /*break*/, 4];
+<<<<<<< HEAD
                     case 4: return [2 /*return*/];
+=======
+                    case 4:
+                        ;
+                        return [2 /*return*/];
+>>>>>>> 2c179335f925f3d8956b3ebcbe67043e21656fbc
                 }
             });
         });

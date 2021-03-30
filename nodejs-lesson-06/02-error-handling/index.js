@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 const fs = requier("fs").Promises;
@@ -21,6 +22,8 @@ const getUsersService1 = async () => {
 };
 getUsersService1();
 
+=======
+>>>>>>> 2c179335f925f3d8956b3ebcbe67043e21656fbc
 /*
     Error Handling - טיפול בשגיאות
     שרת זו תוכנה
@@ -33,8 +36,15 @@ getUsersService1();
     - גם כדי להודיע לקליינט שמשהו קרה
     - למנוע או לגרום לקריסת התוכית 
     - לבחון אם המצב תקין או שהמתכנת צריך כוס קפה
+<<<<<<< HEAD
     3 Types of errors in programming;   
     *1 Compilation Errors;
+=======
+
+    3 Types of errors in programming;   
+    *1 Compilation Errors;
+
+>>>>>>> 2c179335f925f3d8956b3ebcbe67043e21656fbc
     *2 Operational Errors; - שגיאות שאין להם קשר לבאגים בתוך התוכנה עצמה
     אלא שגיאות שמתייחסות לקוד תקין
     והסיבה שהם קוראות לא קשורה לתוכנה שהמפתח כתב
@@ -44,6 +54,10 @@ getUsersService1();
     בעיה להתחבר לדאטה בייס
     בעית זיכרון במחשב שהתוכנה רצה עליו
     מידע שגוי שהקליינט שלח
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2c179335f925f3d8956b3ebcbe67043e21656fbc
     *3 Programmer Errors; - שגיאות שדורשות כוס קפה
     אלא שגיאות שנובעות כתוצאה מבאג 
     כתוצאה מבעיה בקוד שהמכנת כתב - יש לספק לו קפה מידית
@@ -91,4 +105,8 @@ const getUsersService2 = async () => {
         process.exit(1); // קוד 1 מצביע כך שהתוכנה יצאה עקב שגיאה;
     };
 };
+<<<<<<< HEAD
 getUsersService2();
+=======
+getUsersService2();
+>>>>>>> 2c179335f925f3d8956b3ebcbe67043e21656fbc
