@@ -62,15 +62,10 @@ import { IsNumber, IsString, Length, Min, Max, IsPositive } from "class-validato
 export class Product {
 
     @Min(0, {
-        groups: ['post'],
+        groups: ['shmuelTheKing'],
     })
     id: number;
 
-    
-
-
-
-    
     @IsString()
     @Length(2, 10)
     name: string;

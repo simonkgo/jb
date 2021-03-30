@@ -61,7 +61,7 @@ export class ProductsController {
 
             //הפעלה של פונקציה שמגיעה מתוך הסיפריה - שתחזיר הודעות ולידציה אם יהיו;
 
-            const errors = await validate(product, {groups: ['post']});
+            const errors = await validate(product, {groups: ['shmuelTheKing']});
             console.log(errors);
 
 
@@ -97,11 +97,14 @@ export class ProductsController {
     //---; 
     private async patch(req: express.Request, res: express.Response) {
         try {
-            const idParam: number = +req.params.id;
-            const product: Product = req.body;
-            product.id = idParam;
+            const { name, price, stock } = req.body;
+            const product =  new Product(name, price, stock)
 
-            const result: Product = await ProductsService.patch(product);
+            const errors = await validate(product, {groups: ['shmuelTheKing']});
+            console.log(errors);
+
+
+            const result: Product = await ProductsService.patch(product,);
             res.json(result);
         } catch (err) {
             res.status(400).send(err.message);

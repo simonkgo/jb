@@ -41,7 +41,7 @@ const main = () => {
     app.use(express.static(frontendPath));
 
     //Middleware for getting files sent from the client;
-    //mv מוסיף פונציקה - הפונקציה אחראית על כיבת הקובץ לתוך הנתיב שתקבל
+    //mv המידלוור אחראי על כתיבת מתודה מיוחדת שתהיה אחראית על כתיבת הקבוץ לשרת הפונקציה תקרא 
     app.use(fileUpload());
 
     app.post("/upload-image", (req, res) => {
@@ -86,7 +86,7 @@ const main = () => {
 
             //שליחת התמונה לקלייט;
             res.sendFile(imagePath);
-            
+
         } catch (err) {
             console.log("err", err);
             res.status(400).json("Ooopsi...");
