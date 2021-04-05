@@ -1,4 +1,8 @@
 import * as express from 'express';
+import * as path from 'path';
+const fileUpload = require('express-fileupload')
+import * as uuid from 'uuid'
+
 import {Employee} from './employee';
 import EmployeesService from "./Employees-service";
 import{NotFound, BadRequest} from '../middleware/error-middleware'
@@ -8,15 +12,16 @@ import { validate } from 'class-validator';
 
 export class EmployeesController {
 
-    public router : express.Router;
+    public router : express.Router; 
     constructor (){
         this.router = express.Router()
         this.activeEmployeesControllerRoutes()
         
     }
-
     private activeEmployeesControllerRoutes(){
+        
         this.router.use('/employees',this.date)
+        this.router.post('/imageupload',this.uploadImage)
         this.router.get('/employees', this.all)
         this.router.get('/employees/:id', this.getOne)
         this.router.post('/employees', this.post)
@@ -25,7 +30,15 @@ export class EmployeesController {
         this.router.delete('/employees/:id', this.delete)
         
     }
-
+    private async uploadImage(req:express.Request, res:express.Response,next:express.NextFunction){
+        const frontendPath= path.join(__dirname, './frontend')
+        express.static(frontendPath)
+        fileUpload()
+        console.log(req.files);
+        res.json(req.files);
+        
+        
+    }
     private async date (req:express.Request, res:express.Response,next:express.NextFunction){
         try {
             const details = {

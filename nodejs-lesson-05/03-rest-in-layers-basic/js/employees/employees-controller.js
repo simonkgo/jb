@@ -38,6 +38,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployeesController = void 0;
 var express = require("express");
+var path = require("path");
+var fileUpload = require('express-fileupload');
 var employee_1 = require("./employee");
 var Employees_service_1 = require("./Employees-service");
 var error_middleware_1 = require("../middleware/error-middleware");
@@ -50,12 +52,26 @@ var EmployeesController = /** @class */ (function () {
     }
     EmployeesController.prototype.activeEmployeesControllerRoutes = function () {
         this.router.use('/employees', this.date);
+        this.router.post('/imageupload', this.uploadImage);
         this.router.get('/employees', this.all);
         this.router.get('/employees/:id', this.getOne);
         this.router.post('/employees', this.post);
         this.router.put('/employees/:id', this.put);
         this.router.patch('/employees/:id', this.patch);
         this.router.delete('/employees/:id', this.delete);
+    };
+    EmployeesController.prototype.uploadImage = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            var frontendPath;
+            return __generator(this, function (_a) {
+                frontendPath = path.join(__dirname, './frontend');
+                express.static(frontendPath);
+                fileUpload();
+                console.log(req.files);
+                res.json(req.files);
+                return [2 /*return*/];
+            });
+        });
     };
     EmployeesController.prototype.date = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
