@@ -1,0 +1,45 @@
+.header {
+    height: 100%;
+    display: flex;
+    color: #ffffff;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .Layout {
+    height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 15% 80% 5%;
+  }
+  
+  .Layout,
+  .Layout > * {
+    border: 1px solid black;
+  }
+  
+  .Layout > header,
+  .Layout > footer {
+    grid-column: span 12;
+  }
+  
+  .Layout > aside {
+    grid-column: span 2;
+  }
+  
+  .Layout > main {
+    grid-column: span 10;
+    overflow: scroll;
+  }
+  
+  .menu {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .menu > a {
+    margin-top: 20px;
+    text-decoration: none;
+  }
+  
