@@ -14,7 +14,7 @@ export const LayoutComponent = () => {
             </aside>
 
             <main>
-                main page
+                main page;
             </main>
 
             <footer>
